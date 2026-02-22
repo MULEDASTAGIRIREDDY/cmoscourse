@@ -292,6 +292,98 @@ Now we will plot Id vs Vgs with  Vds as constant
 
   <img width="596" height="295" alt="image" src="https://github.com/user-attachments/assets/a1671f4d-ce23-43eb-aeb8-3f27ff5fe72e" />
 
+  By rederiving equation we get <img width="332" height="142" alt="image" src="https://github.com/user-attachments/assets/2c5dc6ee-a392-4833-896b-23ec64535435" />
+
+  we simpliy above equation by using 2 difernt modes:
+  + Long channel(>250nm)
+  + short channel(<250nm)
+    <img width="419" height="183" alt="image" src="https://github.com/user-attachments/assets/2caf5b37-a633-4dce-a472-47cea422badd" />
+  + In both modes major working regions  regions are same.
+  + In short channel we can observe extra region namely "velocity saturation".
+ 
+    <img width="654" height="337" alt="image" src="https://github.com/user-attachments/assets/f3602f70-8688-4e3b-a3c7-e9df12412adb" />
+For diffrent modes there are dierent equations:
++ CUTOFF mode:For this region Id=0 as Vgt<0.
++ For remaining all modes model equation is same.The only diference is in Vgt.
+        <img width="330" height="95" alt="image" src="https://github.com/user-attachments/assets/3f1473ac-5e2a-4e3c-a7f9-4ea49c01fd35" />
+
+   Vmin defined as minimum values among Vgt,Vds,Vdsat.
+  here Vdsat is technology parameter known as saturation voltage.i.e. voltage at which device velocity saturates and is  independent of Vgs or Vds.
+
+  <img width="217" height="63" alt="image" src="https://github.com/user-attachments/assets/9ae92a60-d8fe-4c62-a801-bdb545dfae89" />
++ case1:
+ + When Vgt is minimum,this states that Vds is high and mode is "SATURATION" mode.
+ + the equation changes as shown in picture.
+
+   <img width="313" height="69" alt="image" src="https://github.com/user-attachments/assets/54a0d37d-d218-4149-8543-e244a5c1c1b3" />
+
++ case 2:
+ + Vds is minimum.
+ + when Vds is minimum we can state that MOSET  runs in resistive mode.
+ + so,the equation is changed into above shown form.
+ + For urthr simplification as Vds is samll,we can neglect lamda term.
+
++Case 3:
+ <img width="414" height="92" alt="image" src="https://github.com/user-attachments/assets/0d464f4d-ae18-4719-9d78-c32bd21dffd2" />
+ the above shown is basic equation o velocity saturation region.
+
+   <img width="893" height="394" alt="image" src="https://github.com/user-attachments/assets/5e0e4cb0-1d15-4338-a02f-7035a693a300" />
+
+ 
+
+
+For same W/L ratio but with lower channel length has Low peak current than device with higher channel length.
+
+   # L5 Labs Sky130 Id-Vgs
+
+   # L6 Labs Sky130 Vt
+
+
+
+   <head>MOSET as a switch</head>
+
+   MOS device characteristics:
+   
+   <img width="603" height="218" alt="image" src="https://github.com/user-attachments/assets/cdb4e6b2-5753-45aa-be37-23c97232443e" />
+
+   By this figure we can state that the MOSFET can be used as  switch by varying Vgs.
+   + When Vgs > Vt(Threshold Voltage) it acts as ON,with finite ON resistance.
+   + When Vgs < Vt,it acts as OFF condition with ininite OFF resistance.
+   + we are using mod for Vgs and Vt because for PMOS, the conditions are negative but or NMOS they are positive. 
+
+
+   
+   
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+  
+
+
 
 
 
