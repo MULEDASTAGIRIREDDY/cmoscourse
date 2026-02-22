@@ -91,7 +91,144 @@ it depends on doping concentration,Vsb,Body effect coeicient(impacts of Vsb),fer
 
     when we apply voltage at drain,there is a formation of voltage gradient due to which the volage is not same at all points along eective channel length.
   V(x) is voltage at point 'x' along channel
-  Vgs-V(x) is gte to channel voltage at a given point.
+  Vgs-V(x) is gte to channel voltage at a given point.It is known as effective channel voltage.
+
+Here the induced charges(Qi)= Cox(Vgs-V(x)-V(t))
+<img width="262" height="151" alt="image" src="https://github.com/user-attachments/assets/707bba8f-91fa-45f2-b5d6-b04477b24877" />
+  The ormula or Cox has been stated above by naming all parameters and contsnat values.
+
++ From device view there are 2 types of currents:
+ + Drift current - Current due to potential difference
+ + Difusion Current - current due to difference in carrier concentration.
+
++ Here we are stating drift current as there is Potential current.
+ 
+  <img width="338" height="459" alt="image" src="https://github.com/user-attachments/assets/6aa7c299-b1c3-4c7a-996b-c7ca8c51dfe3" />
+
+  Drain Current = Velocity of charge carriers * available charge carriers along channel width
+
+  velocity Vn(x) = mobility* electric field
+
+![WhatsApp Image 2026-02-22 at 18 08 40](https://github.com/user-attachments/assets/17ffd8c5-59f1-4311-84c8-f1b5e23b6b29)
+
+As it is linear reggion of operation we should simpliy it to linear.
+
+<img width="280" height="61" alt="image" src="https://github.com/user-attachments/assets/f4c280e0-679e-4d60-b39a-ab09c6d8a1a6" />
+ The equation is simpliied into this form where kn' is Cox * mobility.
+ still we simplify this equation into linear form.This equation is suitable only for Vds value is small.so we can neglect square term from the equation.So we get Id=Kn*(Vgs-Vt)
+
+ <img width="299" height="186" alt="image" src="https://github.com/user-attachments/assets/60d01007-3596-4aa8-bfdf-896e6d230e65" />
+
+
+ we need to find the impact of Vds and  Vgs on Id drain current.The NMOS  works in linear region only when Vds <= Vgs-Vt.
+ + For calculating Id drift current for diferent conditions on Vgs and Vgs to find it's sweeping ranges we are using an engine to do all the work which is SPICE simulation to get drain current waveforms.
+
+
+
+# SATURATION REGION(Vds>Vgs-Vt)
+
+<img width="837" height="447" alt="image" src="https://github.com/user-attachments/assets/da97dbb7-286f-45a9-80bd-a3e94fb1f6da" />
+
+ From above picture we can observe 3 types of behaviours:
+ 1)when Vgs-Vds > Vt
+   <img width="338" height="459" alt="image" src="https://github.com/user-attachments/assets/6aa7c299-b1c3-4c7a-996b-c7ca8c51dfe3" />
+   The channel width is same through out.
+
+2)When Vgs-Vds=Vt
+
+<img width="348" height="273" alt="image" src="https://github.com/user-attachments/assets/86223c4f-91e3-4f5f-9b7a-4dd3bf00b080" />
++ In this condition w ecan observe that the Vgs+1 hich is greater than threshold voltage but Vds=0.45 which i seu=qual to threshold voltage.
++ By these values we can observe that inversion takes place and charges also induced at source.
++ Whereas at Drain the voltge is of threshold voltage,there just inversion happens and field has not been induced.
++ we can observe that in above picture.We can see traingulation of channel width.
++ At drain end the channel got disappearing.This phenomenon is called as Pinch-Off region.
+
+   Pinch off condition: Vgs-Vds <= Vt.
+
+  3)Vgs - Vds < Vt,then the channel near drain completely disappers.
+
+  <img width="349" height="280" alt="image" src="https://github.com/user-attachments/assets/787c34a2-8589-4162-9693-e1a920442dff" />
+
+   Here in Saturatiopn region,we don't have dependency on Drain.
+  Voltage over channel remains constant = Vgs-Vt
+
+  <img width="306" height="153" alt="image" src="https://github.com/user-attachments/assets/84d43152-8205-49da-88e6-1a3e5c084d5a" />
+  In the above equation,when Vds > Vgs-Vt,then the channel voltage = Vgs-Vt
+Here Vds is nothing but the channel voltage.
+so,drain current changes into shown form.
+ <img width="263" height="39" alt="image" src="https://github.com/user-attachments/assets/d3d7b3aa-571d-4922-8e06-ebe756e41f7a" />
+   It acts as constant current.so,it is called as saturation region.
+
+
+
+
+
+
+# Introduction to SPICE.
+
+ It is a software which contains predefined models to derive wave forms to calculate delays.
+
+ <img width="779" height="425" alt="image" src="https://github.com/user-attachments/assets/efa8c994-32f2-4888-a755-8a3469549f02" />
+
+ + In the above image the circled parameters are known as SPICE parametrs.These parameters are given by foundry.
+ + The background required to understad SPICE simulation has been understood in previos lectures and stated final results in above picture.
+
+   <img width="451" height="367" alt="image" src="https://github.com/user-attachments/assets/d17c625e-bd0e-402c-8112-e009067609ce" />
+
+   For spice  setup we give SPICE Model parametrs and SPICE nerlist, where as spice netlist is about how we arranged MOSFET circuit as we are not able to give direct moset parameters to software.By that we get required graphs to find delay.
+
+
+   # SPICE netlist
+    <img width="756" height="303" alt="image" src="https://github.com/user-attachments/assets/b7b1e716-cca4-4147-b839-d3f2344b86dd" />
+    In SPICE netlist connection
+   + The body and Source has been Grounded.
+   + Gate is connected to Vin which is known as variable input through resistor in between them to protect gate from damage.
+   + Supplying drain Voltage which is known as Variable supply Voltage.
+  
+   #  L2 Circuit description in SPICE syntax
+
+   <img width="785" height="296" alt="image" src="https://github.com/user-attachments/assets/3810679a-706e-48ec-be0b-4ca2635ebbbe" />
+   To convert netlist into SPICE syntax we need to deine nodes.
+   Node node a line where thre is no obstruction.Like that wehave to deine nodes.Toput it simply the line between two components is called as NODE.
+   
+   <img width="378" height="211" alt="image" src="https://github.com/user-attachments/assets/2fa6daef-e0fd-43ae-8d85-ef4c2be169af" />
+
+      Nodes of circuit is stated above.
+
+
+   
+
+
+   
+
+
+
+
+
+
+
+  
+
+
+   
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+  
+
+  
 
 
 
