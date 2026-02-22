@@ -255,6 +255,50 @@ so,drain current changes into shown form.
 + We can observe when Vgs is zero,Id is also Zero.
 + Id increases with Vgs.
 
+Here we took dierent condition where W/L is same but W is changed to 0.375u and L to 0.25u by keeping all other values same.
+
+<img width="1352" height="503" alt="image" src="https://github.com/user-attachments/assets/6d1d6c1e-8de2-4183-84eb-1a22030ec63b" />
+
+Command has been given by saving file in .cir format in terminal.By using command rin we can get plots.
+
+ # Observation1
+<img width="888" height="387" alt="image" src="https://github.com/user-attachments/assets/fcea381a-2803-4571-b517-8f2c5322ed6e" />
+
++ In long channel device Drain current shows Quadratic dependence.
++ In short channel  device Drain current shows linear dependence when gate voltage is increasing where as in long channel device it shows Quadratic dependence.
++ This happens due to VELOCITY SATURATION.
+
+Now we will plot Id vs Vgs with  Vds as constant
+
+
+<img width="1769" height="876" alt="image" src="https://github.com/user-attachments/assets/78ad97fe-478a-4a88-9d50-498aed1b5c38" />
+
+# Igs vs Vgs with constant Vdd
+# For length of 1.2u and length  and length of 0.25u,Vds at 0,2.5 by varying  Vgs
++ for long channel,the curve is completely Quadratic.Difusion current changes in Quadratic natre with increase in Vgs
++ for short channel length
+ + Id changes quadratic with low values of Vgs.
+ + with increase in Vgs, Id changes linearly for constant Vdd.
+ + This happens due to VELOCITY SATURATION.
+
+<img width="639" height="287" alt="image" src="https://github.com/user-attachments/assets/dcace198-0f95-4cc7-bdb3-08ec42063f7f" />
+
++ For lower values of electric field velocity changes linearly
++ With increase in electric field(E),velocity eventually becomes constant.
++ This phenomenon is called VELOCITY SATURATION.
++ At higher fields(after Ec) velocity becomes constan due to scattering effect.
+
+  So we need to add velocity constraint in the equation.
+
+  <img width="596" height="295" alt="image" src="https://github.com/user-attachments/assets/a1671f4d-ce23-43eb-aeb8-3f27ff5fe72e" />
+
+
+
+
+
+ 
+
+
  
  
 
