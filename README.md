@@ -195,6 +195,50 @@ so,drain current changes into shown form.
 
       Nodes of circuit is stated above.
 
+   <img width="777" height="247" alt="image" src="https://github.com/user-attachments/assets/b42fb777-0aa5-4798-bd98-aae3bda4fc5d" />
+
+   Here they state about SPICE syntax.
+   + Nodes are represented as Vdd,n1,0,0
+   + In syntax M denotes MOSFET.
+    + MOSFET is connected by 4 nodes is stated.
+    + Type of MOSFET is decided by TECHNOLOGY file which contains SPICE parameters.
+    + We also stated length and width parameters.
+   + Resistor as R,connected to 2 nodes.
+   + Vdd as drain Voltage,connected to 2 nodes.
+   + Vin as Vin,connected to 2 nodes.
+  
+   #  L3 Define technology parameters
+  <img width="304" height="359" alt="image" src="https://github.com/user-attachments/assets/7dccf746-3167-44a4-97c1-5f46589488b1" />
+
+  These are parameters coming from Foundry.
+  <img width="384" height="204" alt="image" src="https://github.com/user-attachments/assets/2b50e599-4eeb-4cf4-bf08-b11757444f2a" />
+  we can us eit in SPICE by using .MODEL as stated above.Here we can state parameters in its respective positions as it has predeined positions for diffrent values.
+
+  <img width="351" height="141" alt="image" src="https://github.com/user-attachments/assets/e563a996-18a9-41ef-b425-f2c8f8d9f388" />
+  all these models can be stored in <b>.lib</b> format.This can be used in SPICE console as shown below.
+
+  <img width="415" height="130" alt="image" src="https://github.com/user-attachments/assets/4be16644-921d-4685-a23f-232d69f4f21b" />
+
+
+   # simulation commands
+   For these simulation commands we should sweep Vin and Vdd for different values.
+
+
+   # L4 First SPICE simulation
+
+
+   
+   
+
+
+   
+
+    
+  
+     
+       
+
+
 
    
 
