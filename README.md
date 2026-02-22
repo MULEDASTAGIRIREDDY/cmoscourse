@@ -224,7 +224,39 @@ so,drain current changes into shown form.
    For these simulation commands we should sweep Vin and Vdd for different values.
 
 
-   # L4 First SPICE simulation
+   # L4 First SPICE simulation.
+
+
+ In this lecture we learn about opening and running SPICE in terminal.
++ leant about dirent terminal commands.
++ Learnt about different corners such as Typical corner(tt),slowfast(sf),fastfast(ff) corner.
+
+  <img width="618" height="747" alt="image" src="https://github.com/user-attachments/assets/b16d4efa-cb40-4557-936b-6a4d607ee676" />
+
+  we opened a file from sky130 and Id vs Vds simulation for diferent Vgs.
+
+  <img width="624" height="402" alt="image" src="https://github.com/user-attachments/assets/3a507611-c4ff-407d-8db2-3ecc3e760185" />
+
+  
+
+# DAY2
+
+ # L1 SPICE simulation for lower nodes
+
+ <img width="851" height="477" alt="image" src="https://github.com/user-attachments/assets/a49e6a17-977a-441e-ab12-ff67b9401e11" />
+
+ From this image we can obserev that graphs and coorelate with our equtions.
+ + Blue line in picture is Vds= Vgs - Vt.
+ + This equation divides total graph into two regions.
+  + Linear Region.
+  + Saturation Region.
++ About linear region we assume that Vds is small,so the equation acts as linear and we can observe that in the graph eventhough Vds is small it has impact on difusion current.So,we observe nearly linear graph.
++ About satration region withs its respective Vds,We observe its nearly consatnt as stated by equation which cntains modulation cator for better results.So we observe nearly constant value.
++ We can observe when Vgs is zero,Id is also Zero.
++ Id increases with Vgs.
+
+ 
+ 
 
 
    
