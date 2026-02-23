@@ -1,4 +1,4 @@
-# cmoscourse
+#  cmoscourse
    # lecture1 why do we need spice simulations?
     Before we study about SPICE simulations we need to know diference between the spice simulations and circuit design.
 #circuit design
@@ -1216,6 +1216,1216 @@ These 5 regions correspond exactly to the 5 segments of the VTC curve. They will
 <head>DAY4</head>
 
 # Introduction to NOisse margin.
+Static behavior Evaluation : CMOS inverter Robustness
+2. Noise Margin, NMH and NML
+
+What is Noise Margin?
+In this lecture we study about Noise Margin.
+Noise Margin tells us how much noise a digital circuit can tolerate before it starts giving wrong output.
+In real chips there is always some noise present on the wires due to coupling,power supply variation,crosstalk etc.So the inverter must be robust enough to handle this noise.
+Noise Margin is a measure of this robustness of the CMOS inverter.
+
+Input and Output of an Inverter
+
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/60fb4d3a-0148-4174-8168-7c3e2b5c4266" />
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/60fb4d3a-0148-4174-8168-7c3e2b5c4266" />
+
+
+From above picture we can observe a simple inverter symbol.
+Inverter takes input 0 or 1 and gives output 1 or 0 respectively.
+•If input is 0 then output is 1
+•If input is 1 then output is 0
+This is the basic inversion behaviour.But in real circuits input and output are not ideal 0 or 1.They are voltage levels.So we need to define what voltage range is considered as logic 0 and what range is logic 1.
+
+I/O Characteristic of Inverter
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/2dc14313-431f-434f-a054-70c89d3a42da" />
+
+
+From above picture we can observe the Ideal I/O Characteristic of a Inverter.
+x-axis is Vin and y-axis is Vout.
+In ideal case:
+•When Vin is between 0 and Vdd/2: output is Vdd(logic 1)
+•When Vin is between Vdd/2 and Vdd: output is 0(logic 0)
+The transition happens exactly at Vdd/2 and it is perfectly vertical(infinite slope).
+This is the IDEAL case which does not happen in real circuits.
+
+
+Ideal I/O Characteristic with Infinite Slope
+
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/7cefcba8-14a2-4276-8663-83092277384d" />
+
+From above picture we can observe the Ideal I/O Characteristic with Infinite Slope marked.
+Here the transition from Vdd to 0 happens exactly at Vdd/2 with infinite slope.
+Infinite slope means the transition is instantaneous - output switches from Vdd to 0 at exactly one point on the input.
+This is a perfect step function.In real CMOS inverter this does not happen.The transition takes place over a range of Vin and the slope is finite.
+
+
+Actual I/O Characteristic with Finite Slope
+
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/b57e40c1-c896-4a95-84a9-b5232f308642" />
+
+From above picture we can observe both ideal(left) and actual(right) I/O characteristics side by side.
+In actual I/O characteristic(right graph):
+•When Vin is low: Vout stays at Vdd(output is HIGH)
+•As Vin increases: Vout starts decreasing.This transition region has a finite slope not infinite slope.
+•When Vin is high: Vout stays at 0(output is LOW)
+The transition is not a perfect vertical line.It is a slanted line with finite slope.This is the ACTUAL behaviour of a real CMOS inverter.
+
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/f60392e6-dc31-428c-92ba-006bb1759154" />
+
+From above picture we can observe the finite slope region is now clearly marked on the actual characteristic.
+The finite slope region is the transition zone where the output is switching from HIGH to LOW.
+WHY does finite slope matter?
+Because the finite slope transition region creates ambiguity.If Vin is in the transition zone the output is neither clearly 0 nor clearly 1.This is the region where noise can cause wrong output.So we need to define clear boundaries for what is logic 0 and logic 1 for both input and output.These boundaries are VIL,VIH,VOL,VOH.
+
+VIL - Input Low Voltage
+
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/dc5a0e95-feac-4a0e-9aeb-b072fcf361ef" />
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/dc5a0e95-feac-4a0e-9aeb-b072fcf361ef" />
+
+
+From above picture we can observe VIL marked on the actual I/O characteristic.
+VIL is Input Low Voltage
+Any input voltage level between 0 and VIL will be treated as logic 0.
+VIL is the maximum input voltage that is still recognised as logic 0.
+Below VIL the output is still safely HIGH(close to Vdd).
+VIL is defined as the point on the VTC where slope = -1(dVout/dVin = -1).This is the start of the transition region.
+
+VIH - Input High Voltage
+VIH is Input High Voltage.
+Any input voltage level between VIH and Vdd will be treated as logic 1.
+VIH is the minimum input voltage that is recognised as logic 1.
+Above VIH the output is safely LOW(close to 0).
+VIH is also defined as the point on the VTC where slope = -1.This is the end of the transition region.
+So VIL and VIH are both points where dVout/dVin = -1 on the actual VTC.The region between VIL and VIH is the forbidden zone or transition zone.
+
+VOH - Output High Voltage
+
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/48955318-49e4-4444-9a0a-aba733fbe3d9" />
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/48955318-49e4-4444-9a0a-aba733fbe3d9" />
+
+From above picture we can observe VOH marked on the actual I/O characteristic.
+VOH is Output High Voltage
+Any output voltage level between VOH and Vdd will be treated as logic 1.
+VOH is the minimum output voltage that is recognised as logic 1.
+When Vin < VIL: output must be >= VOH.So VOH corresponds to the output when input is in the LOW region.
+
+
+VOL - Output Low Voltage
+
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/96031e2c-6929-4f7b-8200-47dad582dc7c" />
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/96031e2c-6929-4f7b-8200-47dad582dc7c" />
+
+From above picture we can observe VOL marked on the actual I/O characteristic.
+VOL is Output Low Voltage
+Any output voltage level between 0 and VOL will be treated as logic 0.
+VOL is the maximum output voltage that is still recognised as logic 0.
+When Vin > VIH: output must be <= VOL.So VOL corresponds to the output when input is in the HIGH region.
+
+All 4 Parameters Together
+From above pictures we can observe all 4 parameters on the actual I/O characteristic.
+Summary of all 4 parameters:
+•VIL = Input Low Voltage.Max input voltage treated as logic 0.
+•VIH = Input High Voltage.Min input voltage treated as logic 1.
+•VOH = Output High Voltage.Min output voltage treated as logic 1.
+•VOL = Output Low Voltage.Max output voltage treated as logic 0.
+
+Forbidden zones:
+•Input forbidden zone: voltage between VIL and VIH.Should not operate here.
+•Output forbidden zone: voltage between VOL and VOH.Output should never be in this range.
+
+Noise Margin - NMH and NML
+Now we can define Noise Margin using these 4 parameters.
+
+NMH = Noise Margin High
+NMH = VOH - VIH
+NMH tells us how much noise can be tolerated on a HIGH signal.
+If output of gate A is VOH and input of gate B needs VIH then the diference(VOH - VIH) is the margin available before noise corrupts the HIGH signal.
+Larger NMH means more robust circuit in HIGH state.
+
+NML = Noise Margin Low
+NML = VIL - VOL
+NML tells us how much noise can be tolerated on a LOW signal.
+If output of gate A is VOL and input of gate B must be below VIL then the diference(VIL - VOL) is the margin available before noise corrupts the LOW signal.
+Larger NML means more robust circuit in LOW state.
+
+WHY Noise Margin is important?
+In a real chip there are millions of gates connected together.The output of one gate feeds into input of next gate.
+Due to noise on wires,the voltage level can shift.If the noise is larger than the noise margin then the receiving gate will misinterpret the signal and give wrong output.
+So we want:
+•NMH to be as large as possible so HIGH signals are not misinterpreted
+•NML to be as large as possible so LOW signals are not misinterpreted
+For a symmetric inverter(with equal PMOS and NMOS strength):
+•VIL is slightly above 0
+•VIH is slightly below Vdd
+•VOH is close to Vdd
+•VOL is close to 0
+So both NMH and NML are large.This is one reason CMOS is preferred over other logic families.
+
+
+.............................................................
+
+lectre 37
+
+
+Introduction — Why We Need Noise Margin Parameters
+In a real inverter, the VTC is not a perfect rectangle. The output does not switch instantly from Vdd to 0. Because of this finite slope, we cannot simply say 'anything above Vdd/2 is logic 1 and anything below is logic 0'. We need a more careful set of definitions.
+
+Noise margin voltage parameters are those definitions. They tell us exactly what voltage ranges count as valid logic 0 and valid logic 1 — both at the input and the output. They also tell us how much noise the circuit can tolerate before it misreads a signal.
+
+1. Ideal vs Actual Inverter VTC
+
+ <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/7e8387aa-fea0-4fc0-a362-6c895faf5ad1" />
+
+Ideal Inverter VTC — Infinite Slope
+In an ideal inverter:
+•Vout = Vdd for all Vin < Vdd/2
+•Vout switches instantly to 0 at Vin = Vdd/2
+•Vout = 0 for all Vin > Vdd/2
+
+This gives a perfectly rectangular VTC with infinite slope at the switching point. No ambiguity — any input either produces exactly Vdd or exactly 0.
+
+Actual Inverter VTC — Finite Slope
+In a real CMOS inverter the VTC has a finite slope. This means:
+•Vout starts near Vdd (but not exactly Vdd) for low Vin
+•Vout falls gradually through a transition region around Vdd/2
+•Vout settles near 0 (but not exactly 0) for high Vin
+
+This is the 'Actual I/O Characteristic of an Inverter' shown in the slide. Because the output never reaches exactly 0 V or exactly Vdd, we need to define acceptable ranges — this is where VOL, VOH, VIL, and VIH come in.
+
+2. VOL — Output Low Voltage
+Definition
+VOL  =  Maximum Vout when output is logic 0
+
+From the slide:
+'VOL is Output Low Voltage'
+'=> Any output voltage level between 0 and VOL will be treated as logic 0'
+
+So if the output of a gate is anywhere between 0 V and VOL, the receiving gate will correctly interpret it as logic 0.
+
+By Observation from the VTC
+When Vin is HIGH (near Vdd), the NMOS is strongly ON and PMOS is OFF. NMOS pulls Vout toward Vss = 0. But because NMOS has a finite ON resistance Rn, Vout does not reach exactly 0. It settles at a small positive value — this is VOL.
+
+VOL > 0 always in a real gate. The magnitude of VOL depends on the NMOS W/L ratio. A wider NMOS (smaller Rn) gives a smaller VOL, which is better.
+
+3. VOH — Output High Voltage
+
+<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/3bbc5ef0-058d-4514-9176-fbc186489627" />
+
+Definition
+VOH  =  Minimum Vout when output is logic 1
+
+Any output voltage between VOH and Vdd is reliably interpreted as logic 1 by the receiving gate. So VOH is the guaranteed floor of the HIGH output level.
+
+By Observation from the VTC
+When Vin is LOW (near 0), the PMOS is strongly ON and NMOS is OFF. PMOS pulls Vout toward Vdd. But because PMOS has a finite ON resistance Rp, Vout does not reach exactly Vdd. It settles just below Vdd — this is VOH.
+
+VOH < Vdd always in a real gate. A wider PMOS (smaller Rp) gives a larger VOH, which is better.
+
+Output Voltage Ranges Summary
+•Valid logic 0 output:  0  <=  Vout  <=  VOL
+•Undefined output:  VOL  <  Vout  <  VOH   (transition region — avoid this)
+•Valid logic 1 output:  VOH  <=  Vout  <=  Vdd
+
+4. VIL — Input Low Voltage
+
+<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/fb6ab90d-a52b-431a-8475-2467f4cf5a04" />
+
+Definition
+VIL  =  Maximum Vin that is treated as logic 0
+
+Any Vin between 0 and VIL is guaranteed to produce a valid HIGH output (Vout >= VOH). The gate treats it as a reliable logic 0 input.
+
+How to find VIL on the VTC
+VIL is found at the point on the upper part of the VTC where the slope equals -1.
+
+Slope = -1 means:  dVout/dVin = -1  at that point
+
+This is the unity-gain point on the upper slope. At this point, a 1 V increase in Vin causes exactly a 1 V decrease in Vout. Below VIL, the gain is less than 1 (Vout is relatively stable). Above VIL, the gain becomes greater than 1 and the output starts falling rapidly.
+
+So VIL is the boundary between the reliable LOW input region and the start of the transition zone.
+
+5. VIH — Input High Voltage
+
+<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/b1fef2c0-df73-4e8a-a5fb-c2c7a3d68edc" />
+
+Definition
+VIH  =  Minimum Vin that is treated as logic 1
+
+Any Vin between VIH and Vdd is guaranteed to produce a valid LOW output (Vout <= VOL). The gate treats it as a reliable logic 1 input.
+
+How to find VIH on the VTC
+VIH is found at the point on the lower part of the VTC where the slope also equals -1.
+
+Slope = -1 means:  dVout/dVin = -1  at that point
+
+This is the unity-gain point on the lower slope. Above VIH, the gain is less than 1 and Vout is stable in the LOW region. Below VIH (but above VIL), the gain is greater than 1 and the output is in the transition zone.
+
+Input Voltage Ranges Summary
+•Valid logic 0 input:  0  <=  Vin  <=  VIL  =>  output is guaranteed HIGH
+•Undefined input:  VIL  <  Vin  <  VIH  =>  output is unpredictable (forbidden zone)
+•Valid logic 1 input:  VIH  <=  Vin  <=  Vdd  =>  output is guaranteed LOW
+
+6. All 4 Parameters Together
+
+   <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/e7ee027a-928c-4de5-b00e-593550b4626a" />
+
+   From the slide title: 'L2 Noise margin voltage parameters'
+
+Complete parameter table
+•VOL  — Output Low Voltage   — max Vout for logic 0 output   — on the Vout axis (bottom)
+•VOH  — Output High Voltage  — min Vout for logic 1 output   — on the Vout axis (top)
+•VIL  — Input Low Voltage    — max Vin treated as logic 0    — on the Vin axis (left)
+•VIH  — Input High Voltage   — min Vin treated as logic 1    — on the Vin axis (right)
+
+Noise Margins
+These 4 parameters directly define the noise margins:
+
+NML  =  VIL  -  VOL       (Noise Margin Low)
+NMH  =  VOH  -  VIH      (Noise Margin High)
+
+NML:  How much noise can be added to a LOW signal before the receiving gate misreads it as HIGH. Signal is VOL, gate accepts anything up to VIL — so the margin is VIL - VOL.
+
+NMH:  How much noise can be added to a HIGH signal before the receiving gate misreads it as LOW. Signal is VOH, gate requires at least VIH to read as HIGH — so the margin is VOH - VIH.
+
+Larger NML and NMH means better noise immunity. This is why CMOS is preferred — it naturally has large noise margins because VOL is close to 0 and VOH is close to Vdd.
+
+7. Finding VIL and VIH — The Slope = -1 Method
+
+<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/0442dc5b-097b-4af0-bfca-7ae1d73bdab3" />
+
+Both VIL and VIH are found by drawing a tangent line with slope = -1 on the actual VTC.
+
+•Upper slope = -1 point:  on the high Vout region of the VTC  =>  this is VIL
+•Lower slope = -1 point:  on the low Vout region of the VTC   =>  this is VIH
+
+WHY slope = -1?
+The slope of the VTC is dVout/dVin — the voltage gain of the inverter. When gain = -1 (slope = -1), the circuit is at the boundary between stable and unstable operation. Below gain = -1 in magnitude (|gain| < 1), the output changes less than the input — the gate is in a stable region. Above gain = -1 in magnitude (|gain| > 1), the output changes more than the input — the gate is in the high-gain transition region where logic levels are unreliable.
+
+So slope = -1 is the exact boundary that separates valid input ranges from the undefined transition zone. This is why VIL and VIH are defined there.
+
+8. Final I/O Characteristic — Plotted to Scale
+
+   <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/c908d04e-69bf-4b9f-ae73-5879d7884b99" />
+
+   The final plot shows the complete actual VTC with all parameters labelled at their correct positions on the axes.
+
+Reading the three regions from the final plot
+Region 1 — Valid LOW input (0 to VIL):  Vout stays above VOH. Output is a valid HIGH. Slope < 1 in magnitude.
+
+Region 2 — Transition (VIL to VIH):  Vout moves between VOH and VOL. Output is undefined. Slope > 1 in magnitude. This region must be avoided in normal operation.
+
+Region 3 — Valid HIGH input (VIH to Vdd):  Vout stays below VOL. Output is a valid LOW. Slope < 1 in magnitude.
+
+Summary — Key Points from This Lecture
+•Real inverters have a finite-slope VTC — not the ideal infinite-slope rectangle.
+•VOL = max output for logic 0. VOH = min output for logic 1.
+•VIL = max input treated as logic 0. VIH = min input treated as logic 1.
+•VIL and VIH are found at the slope = -1 (unity gain) points on the actual VTC.
+•NML = VIL - VOL   (noise margin for LOW signals)
+•NMH = VOH - VIH  (noise margin for HIGH signals)
+•Larger noise margins = more robust digital circuit.
+•SPICE simulations from earlier lectures are used to extract these 4 parameters from the actual VTC.
+
+
+
+.............................................................................
+
+Lecture 38
+
+<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/4453698e-5588-48cd-a1a3-0b0f284b7dd7" />
+
+NMH  =  VOH  -  VIH
+
+From the slide:  'NMH is the Noise Margin High => Any voltage level in the NMH range will be detected as logic 1'
+
+By Observation
+When a gate outputs logic 1, it produces a voltage of at least VOH. This output drives the input of the next gate. For the next gate to correctly read it as logic 1, the input must be at least VIH.
+
+Since VOH > VIH, the produced signal (at least VOH) exceeds the required threshold (VIH). The difference is:
+
+NMH = VOH - VIH = gap that noise can consume on a HIGH signal before it drops below VIH and becomes unreliable
+
+Physical meaning
+•If noise < NMH:  signal stays above VIH → next gate correctly reads it as logic 1 → circuit works
+•If noise = NMH:  signal is exactly at VIH → right at the boundary → marginal
+•If noise > NMH:  signal drops below VIH → enters undefined region → circuit may fail
+
+3. NML — Noise Margin Low
+
+   <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/fa2d03bc-caf0-4a2e-8da1-40eda7cbe1be" />
+
+   Definition
+NML  =  VIL  -  VOL
+
+By Observation
+When a gate outputs logic 0, it produces a voltage of at most VOL. This output drives the input of the next gate. For the next gate to correctly read it as logic 0, the input must be at most VIL.
+
+Since VOL < VIL, the produced signal (at most VOL) is below the maximum acceptable LOW input (VIL). The difference is:
+
+NML = VIL - VOL = gap that noise can consume on a LOW signal before it rises above VIL and becomes unreliable
+
+Physical meaning
+•If noise < NML:  signal stays below VIL → next gate correctly reads it as logic 0 → circuit works
+•If noise = NML:  signal is exactly at VIL → right at the boundary → marginal
+•If noise > NML:  signal rises above VIL → enters undefined region → circuit may fail
+
+<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/da70f250-c1fb-4aeb-b653-68f5210c1597" />
+
+
+Comparison of NMH and NML
+•NMH protects HIGH signals from noise that pulls voltage DOWN
+•NML protects LOW signals from noise that pushes voltage UP
+•Both should be as large as possible for a robust circuit
+•For a symmetric inverter (equal PMOS and NMOS sizing): NMH ≈ NML ≈ Vdd/2 approximately
+
+4. The Undefined Region
+
+   <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/bd1af7a9-42ec-427f-b411-0dd8028a6fe9" />
+
+From the slide:  'Any Signal in the Undefined Region will be indefinite logic level'
+
+What is the Undefined Region?
+The undefined region is the voltage band between VIH (upper boundary) and VIL (lower boundary) on the input voltage axis. It is the gap between the top of NML and the bottom of NMH.
+
+On the voltage bar:
+•Above VIH → logic 1 zone (NMH region) — gate correctly outputs logic 0
+•Between VIH and VIL → Undefined Region — gate output is unpredictable
+•Below VIL → logic 0 zone (NML region) — gate correctly outputs logic 1
+
+WHY is the Undefined Region dangerous?
+When the input is in the undefined region, both PMOS and NMOS are partially conducting. The gate is in its high-gain transition region. A tiny change in input produces a large change in output. The output can land anywhere between VOL and VOH — not at a reliable logic level.
+
+If one gate in a logic chain produces an output in the undefined region, the next gate also receives an input in an unpredictable range. Errors can cascade through the entire circuit. This is why the transition through the undefined region must happen as quickly as possible during switching.
+
+5. Noise Margin Summary — Three Cases of Noise Bumps
+
+   <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/4be40362-06a2-4ca1-a5aa-a52095f2599b" />
+
+
+heights relative to the NML, Undefined Region, and NMH bands (~3:30)
+From the slide title: 'Noise Margin Summary'
+From the slide caption: 'Noise induced bump characteristics at different noise margin levels'
+From the slide text: 'For any signal to be considered as logic 0 and logic 1, it should be in the NML and NMH ranges, respectively.'
+
+The diagram shows a signal at a LOW voltage level (near VOL) with three different noise bumps of increasing height:
+
+Case a) — Small noise bump (bump < NML)
+From the slide:  'Bump height lies between Vol and Vil. Will be considered as logic 0'
+
+•Signal baseline is at or near VOL
+•Noise bump rises above VOL but stays below VIL
+•Entire bumped signal stays within the NML zone (0 to VIL)
+•Receiving gate reads it correctly as logic 0
+•Circuit works correctly — noise margin successfully absorbed the bump
+
+Case b) — Medium noise bump (bump enters Undefined Region)
+From the slide:  'Bump height lies between Vil and Vih. Output logic undefined'
+
+•Signal baseline is at VOL
+•Noise bump rises above VIL and into the undefined region (between VIL and VIH)
+•The signal is now in the uncertain zone
+•Receiving gate output is unpredictable — may be anywhere between VOL and VOH
+•This is a marginal case — circuit may or may not work. Not acceptable in reliable design.
+
+Case c) — Large noise bump (bump > NML + Undefined Region, enters logic 1 zone)
+From the slide:  'Bump height lies between Vih and Voh. Will be considered as logic 1'
+
+•Signal baseline is at VOL (intended logic 0)
+•Noise bump rises above VIH, entering the logic 1 zone
+•Receiving gate reads it as logic 1 — this is a full logic error
+•Circuit fails — what was supposed to be 0 has been corrupted to 1 by noise
+
+6. Summary — Key Points from This Lecture
+The two noise margin equations
+NMH  =  VOH  -  VIH
+NML  =  VIL  -  VOL
+
+Three voltage regions on the input voltage axis
+•0 to VIL          → Valid logic 0 input zone. Gate output is guaranteed HIGH.
+•VIL to VIH        → Undefined Region. Gate output is unpredictable. Avoid this.
+•VIH to Vdd         → Valid logic 1 input zone. Gate output is guaranteed LOW.
+
+What noise margins tell us
+•NML = how much noise a LOW signal can absorb before it is misread
+•NMH = how much noise a HIGH signal can absorb before it is misread
+•Larger NML and NMH = more robust circuit
+•CMOS has large noise margins because VOL ≈ 0 and VOH ≈ Vdd
+
+Three noise bump cases — what determines circuit behaviour
+•Bump < NML (or < NMH): stays in valid zone → circuit works correctly
+•Bump enters Undefined Region: unpredictable output → marginal and unreliable
+•Bump crosses VIH (or VIL): full logic error → circuit fails
+
+
+............................................................................
+LECTURE 39
+
+Noise margin variation with respect to PMOS width
+Static behavior Evaluation : CMOS inverter Robustness
+2. Noise Margin, NMH and NML
+
+Experiment Setup
+
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/9cfed354-0347-4944-a57f-802e6284e1be" />
+
+
+From above picture we can observe the experiment setup.
+There is a table on the left side with two columns:
+•Wp/Lp: PMOS width to length ratio (kept same Wp/Lp in all cases)
+•x.Wn/Ln: NMOS width multiplied by x (this is the PMOS width relative to NMOS)
+
+We run 5 SPICE simulations.In each simulation we increase the PMOS width:
+•Row 1: Wp/Lp with Wn/Ln  (PMOS width = 1x NMOS width)
+•Row 2: Wp/Lp with 2Wn/Ln (PMOS width = 2x NMOS width)
+•Row 3: Wp/Lp with 3Wn/Ln (PMOS width = 3x NMOS width)
+•Row 4: Wp/Lp with 4Wn/Ln (PMOS width = 4x NMOS width)
+•Row 5: Wp/Lp with 5Wn/Ln (PMOS width = 5x NMOS width)
+
+Bottom row of table shows NMH and NML values for each case.
+Green curve on graph is the VTC(Vout vs Vin).Blue lines show the slope = -1 points which give VIL and VIH.
+
+Case 1: Wp/Lp with Wn/Ln (1x PMOS width)
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/237645a3-a3b5-4ca1-a108-0ffe8427956e" />
+
+From above picture we can observe Case 1 with PMOS width = 1x NMOS width.
+This is the baseline case where PMOS and NMOS have same width.
+We can observe:
+•Vm = 0.99v (switching point is below Vdd/2 = 1.25v)
+•VTC curve transitions around Vin = 1v
+•NMH = 0.3
+•NML = 0.3
+
+WHY is Vm below Vdd/2?
+Because PMOS is naturally weaker than NMOS for same width(PMOS mobility is lower than NMOS mobility).So NMOS wins the fight earlier and pulls output LOW at a lower Vin.To make Vm = Vdd/2 we need to make PMOS stronger by increasing its width.
+
+Case 2: Wp/Lp with 2Wn/Ln (2x PMOS width)
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/debd5b9a-f3c3-4d60-afb3-2797c21082d8" />
+
+From above picture we can observe Case 2 with PMOS width = 2x NMOS width.
+We can observe:
+•Vm = 1.2v (switching point shifted right compared to Case 1)
+•VTC curve shifted to the right.PMOS is now stronger so it holds output HIGH for longer.
+•NMH = 0.35 (increased from 0.3)
+•NML = 0.3 (same as Case 1)
+
+From above picture we can observe that increasing PMOS width shifts the VTC curve to the right.This means the inverter switches at a higher Vin.NMH increases because VOH stays at Vdd but VIH moves to the right.
+
+Case 3: Wp/Lp with 3Wn/Ln (3x PMOS width)
+
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/59b1a21c-6136-4620-ab61-3ba0269e7c23" />
+
+From above picture we can observe Case 3 with PMOS width = 3x NMOS width.
+We can observe:
+•Vm = 1.25v (switching point is now exactly at Vdd/2 = 1.25v)
+•VTC curve is now symmetric.This is the balanced inverter condition.
+•NMH = 0.4 (further increased)
+•NML = 0.3 (still same)
+
+From above picture we can observe that at 3x PMOS width the inverter is symmetric.Vm = Vdd/2 = 1.25v.This is because PMOS mobility is roughly 2-3x lower than NMOS mobility so we need 2-3x wider PMOS to balance.
+
+Case 4: Wp/Lp with 4Wn/Ln (4x PMOS width)
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/130ed808-8d8f-4084-9f46-113fe32795db" />
+
+From above picture we can observe Case 4 with PMOS width = 4x NMOS width.
+We can observe:
+•Vm = 1.35v (switching point shifted further right)
+•VTC curve shifted even more to the right.PMOS is now stronger than NMOS.
+•NMH = 0.42 (increased further)
+•NML = 0.27 (decreased from 0.3)
+
+Here we can observe that NMH is increasing but NML is now decreasing.This is because when PMOS is too strong the output LOW level(VOL) starts rising slightly and VIL shifts left.So NML = VIL - VOL becomes smaller.
+
+Case 5: Wp/Lp with 5Wn/Ln (5x PMOS width)
+
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/c08e6214-665c-4970-aea4-6f06a34cd66b" />
+
+From above picture we can observe Case 5 with PMOS width = 5x NMOS width.
+We can observe:
+•Vm = 1.4v (switching point shifted even further right)
+•VTC curve continues to shift right.
+•NMH = 0.42 (same as Case 4, no further improvement)
+•NML = 0.27 (same as Case 4, no improvement)
+
+From above picture we can observe that beyond 4x PMOS width there is no further improvement in NMH.Both NMH and NML have saturated.Increasing PMOS width further just keeps shifting Vm to the right but does not help noise margin anymore.
+
+Complete Results Table
+
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/0e7631fd-6666-49c0-9b24-c2d9a595d9b1" />
+
+
+Table summary:
+•Wp/Lp with Wn/Ln:   NMH = 0.3,  NML = 0.3,  Vm = 0.99v
+•Wp/Lp with 2Wn/Ln:  NMH = 0.35, NML = 0.3,  Vm = 1.2v
+•Wp/Lp with 3Wn/Ln:  NMH = 0.4,  NML = 0.3,  Vm = 1.25v
+•Wp/Lp with 4Wn/Ln:  NMH = 0.42, NML = 0.27, Vm = 1.35v
+•Wp/Lp with 5Wn/Ln:  NMH = 0.42, NML = 0.27, Vm = 1.4v
+
+Key observations from table:
+•As PMOS width increases: Vm increases(VTC shifts right)
+•NMH increases as PMOS width increases upto 4x then saturates
+•NML stays same upto 3x then decreases after 4x
+•Best balanced noise margin is at 3x PMOS width where Vm = Vdd/2 and both NMH and NML are reasonable
+
+Connection to Digital Design
+
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/e5233755-9b8e-4e36-801f-2401eb9e9faa" />
+
+
+From above picture we can observe the connection to Digital Design concept marked on the VTC.
+In Digital Design we always assume inverter is symmetric and VTC is ideal.But in real CMOS design:
+•PMOS is always made 2x to 3x wider than NMOS to compensate for lower PMOS mobility.
+•This ensures Vm is close to Vdd/2 which gives symmetric NMH and NML.
+•If we dont size PMOS correctly then Vm shifts and one of NMH or NML becomes too small.
+•Small noise margin means the circuit can give wrong output even with small noise on the wire.
+
+In standard cell libraries all the cells(AND,OR,NAND,NOR etc) are designed with correct PMOS to NMOS ratio so that noise margins are always within acceptable limits.This is part of cell characterization in Physical Design flow.
+
+WHY this experiment is important?
+This experiment shows us:
+•PMOS width directly controls where the VTC sits.
+•Vm increases as PMOS width increases.
+•NMH and NML are not independent.Increasing one may decrease the other.
+•There is an optimal PMOS width(around 3x NMOS) for balanced noise margin.
+•In chip design,PMOS is always made wider than NMOS.Standard sizing is 2x to 3x.
+
+For Physical Design engineers this matters because:
+•If you change PMOS width during ECO(Engineering Change Order) it will shift Vm and affect timing.
+•Noise margin must be checked during signoff.If NMH or NML is too small the chip may fail in noisy environments.
+•In advanced nodes(7nm,5nm) PMOS and NMOS mobilities are closer so the ratio needed is smaller.
+
+..........................................................................
+
+#LECTURE 40
+
+............................................................................
+
+#LECTURE 41
+
+What is this lecture about?
+In previous lectures we changed PMOS width and saw how VTC and noise margin changes.
+Now in this lecture we want to see what happens when Vdd changes.What if someone gives 2.5V chip only 1V supply?Will it still work?
+So the question is - how does VTC change when Vdd is scaled down from 2.5V to 1V?
+To answer this we run multiple SPICE simulations - one for each Vdd value.But doing this manually for every Vdd is boring and slow.So in this lecture we learn a SMART way to run all simulations automatically using a loop inside the SPICE netlist itself.
+
+Circuit Setup
+<img width="700" height="310" alt="image" src="https://github.com/user-attachments/assets/c1276d21-f1bd-4057-9228-5b31efe57157" />
+
+
+From above picture we can observe the inverter circuit used for this experiment.
+Circuit parameters are:
+•Vdd = 2.5V (starting value, will be scaled down)
+•Wp = 0.9375u (PMOS width)
+•Wn = 0.375u (NMOS width)
+Note: Wp is 2.5x Wn.This is the balanced sizing we learned in previous lecture to get Vm near Vdd/2.
+
+The Experiment - What are we doing?
+
+<img width="700" height="310" alt="image" src="https://github.com/user-attachments/assets/f84a790b-f8cb-462f-b05d-276467127fef" />
+
+From above picture we can observe the plan.
+Same inverter.Same transistor sizes.Only one thing changes - Vdd.
+We want to run VTC simulation 5 times:
+•Run 1: Vdd = 2.5V
+•Run 2: Vdd = 2.0V
+•Run 3: Vdd = 1.5V
+•Run 4: Vdd = 1.0V
+•Run 5: Vdd = 0.5V
+
+Each run gives one VTC curve.At the end we get 5 curves on the same plot.We can see how VTC shape changes as Vdd goes down.
+
+We could write 5 separate netlist files.But that is silly and slow.Instead we write ONE netlist with a loop that does all 5 runs automatically.This is the "smart" part.
+
+Reference VTC at Vdd = 2.5V
+
+<img width="700" height="310" alt="image" src="https://github.com/user-attachments/assets/78075046-4a7a-44df-a2ef-fb079b87b8fb" />
+
+
+From above picture we can observe the VTC curve at Vdd = 2.5V with region labels.
+This is the reference VTC we already know from previous lectures.
+5 regions are visible on the curve:
+•PMOS linear, NMOS off - at very low Vin,output = Vdd
+•PMOS linear, NMOS sat - Vin just above Vtn,NMOS starts conducting
+•PMOS sat, NMOS sat - both in saturation,sharp transition region
+•PMOS sat, NMOS linear - Vin high,NMOS pulls output low
+•PMOS off, NMOS linear - at very high Vin,output = 0
+This is the full VTC at 2.5V.Now we want to see what happens at lower Vdd values.
+
+The Smart SPICE Netlist - How the loop works
+Instead of writing 5 separate netlists,the instructor writes ONE netlist with a loop.This is the clever part of this lecture.
+
+<img width="700" height="310" alt="image" src="https://github.com/user-attachments/assets/07ae54dd-3382-4c15-a942-926bf569c959" />
+
+From above picture we can observe the top part of the SPICE netlist file called ScalingSupplyVoltageExp.
+The netlist starts with standard MODEL and component descriptions:
+*** MODEL Descriptions ***
+*** NETLIST Description ***
+***2.5 supply voltage***
+M1 out in vdd vdd pmos W=0.9375u L=0.25u
+M2 out in 0 0 nmos W=0.375u L=0.25u
+cload out 0 10f
+Vdd vdd 0 2.5
+Vin in 0 2.5
+
+M1 is PMOS with Wp=0.9375u.M2 is NMOS with Wn=0.375u.cload is 10fF load cap.Vdd starts at 2.5V.Vin sweeps from 0 to 2.5V to get VTC.
+
+<img width="700" height="310" alt="image" src="https://github.com/user-attachments/assets/9882b8e3-f88f-4efa-89c7-f0523c7bef69" />
+
+
+From above picture we can observe the .control section which is the "smart" loop part.
+The .control block is a special ngspice section where you can write control commands like a simple program.
+
+The loop works like this:
+.control
+let powerSupply = 2.5
+alter Vdd = powerSupply
+
+    let voltageSupplyVariation = 0
+    dowhile voltageSupplyVariation < 5
+        dc Vin 0 2.5 0.01
+        let powerSupply = powerSupply - 0.5
+        alter Vdd = powerSupply
+        let voltageSupplyVariation = voltageSupplyVariation + 1
+    end
+
+    plot dc1.out vs in dc2.out vs in dc3.out vs in dc4.out vs in dc5.out vs in
+    xlabel "input voltage [V]" ylabel "output voltage [V]"
+    title "Inverter dc characteristics as a function of supply voltage"
+.endc
+
+Let us understand each part of the loop step by step:
+
+<img width="700" height="310" alt="image" src="https://github.com/user-attachments/assets/6d7ecfd2-7c1a-41d0-b367-b097aa262a3b" />
+
+From above picture we can observe the dc Vin 0 2.5 0.01 line is highlighted.This is the DC sweep command inside the loop.
+
+Step by step loop explanation:
+•let powerSupply = 2.5 : creates a variable called powerSupply and sets it to 2.5V
+•alter Vdd = powerSupply : tells SPICE to change Vdd to whatever powerSupply is
+•let voltageSupplyVariation = 0 : this is the loop counter.starts at 0.
+•dowhile voltageSupplyVariation < 5 : keep looping as long as counter is less than 5.So loop runs 5 times.
+•dc Vin 0 2.5 0.01 : sweep Vin from 0 to 2.5V in steps of 0.01V.This gives one VTC curve.
+•let powerSupply = powerSupply - 0.5 : reduce Vdd by 0.5V for next iteration
+•alter Vdd = powerSupply : apply the new Vdd
+•let voltageSupplyVariation = voltageSupplyVariation + 1 : increment counter
+•end : go back to dowhile check
+
+So the 5 iterations run at Vdd = 2.5, 2.0, 1.5, 1.0, 0.5V one by one automatically.No manual work needed.
+
+<img width="700" height="310" alt="image" src="https://github.com/user-attachments/assets/ddbb11d7-aef8-49c7-b5f6-96b26eec2d90" />
+
+From above picture we can observe the entire .control block highlighted showing the full loop structure.
+After the loop finishes,the plot command puts all 5 VTC curves (dc1.out through dc5.out) on the same graph.
+
+
+#SIMULATION RESULTS
+
+From above picture we can observe the final result more clearly.
+We can observe very clearly how the VTC changes as Vdd is scaled down:
+•dc1 out (Vdd = 2.5V): largest curve.Output goes from 2.5V down to 0V.Transition happens around Vin = 1.25V.
+•dc2 out (Vdd = 2.0V): slightly smaller.Output swings from 2.0V to 0.
+•dc3 out (Vdd = 1.5V): curve gets narrower.Output swings from 1.5V to 0.
+•dc4 out (Vdd = 1.0V): small curve.Transition getting less sharp.
+•dc5 out (Vdd = 0.5V): tiniest curve at bottom.Output swing is very small.VTC is barely visible.
+
+The most important observation is - as Vdd decreases the VTC curve shrinks and the transition gets less sharp.At very low Vdd the curve becomes very soft which means noise margin gets very small.
+
+WHY this matters?
+1. Modern chips run at low Vdd:
+Chips in 2024 run at 0.7V to 1.0V.Not 2.5V.This is done to save power.Power = C * Vdd^2 * f.Lower Vdd means much less power.So this experiment directly shows what happens to VTC and noise margin in modern low power chips.
+
+2. Noise margin shrinks at low Vdd:
+Look at dc5 curve at 0.5V.The VTC is barely distinguishable.NMH and NML are tiny.This means the circuit is very sensitive to noise.In real chips at very low Vdd,careful noise and variation analysis is needed.
+
+3. Why use a loop instead of 5 separate netlists?
+Using .control loop is a professional SPICE technique.In real industry you will run hundreds of corners and conditions.Writing separate netlist for each is not practical.The loop approach is scalable.Change one number and you can run 10 or 100 iterations.This is the smart way to simulate.
+
+4. The alter command:
+alter Vdd = powerSupply is a powerful command.It lets you change a component value mid-simulation without rewriting the netlist.In real chip verification teams use this to sweep process corners,temperature,and voltage systematically.
+
+
+......................................................................
+
+# LECTURE42
+
+ what happens when we scale Vdd down? Like really bring it down, all the way to 0.5 V.
+
+This is called Power Supply Scaling. We run 5 separate SPICE DC simulations:
+
+•dc1  →  Vdd = 2.5 V
+•dc2  →  Vdd = 2.0 V
+•dc3  →  Vdd = 1.5 V
+•dc4  →  Vdd = 1.0 V
+•dc5  →  Vdd = 0.5 V
+
+All 5 VTCs are plotted on the same graph. Then we check gain and energy at each Vdd.
+Spoiler: lower Vdd gives you better gain AND way less energy. But it also makes the inverter horribly slow.
+
+1.  The 5-VTC Overlay — What It Looks Like
+
+2.  <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/bc834466-2fbe-4709-8cf7-816e362e97e3" />
+
+ach VTC is a different curve on the same axes.
+
+By Observation:
+•As Vdd goes down, the whole VTC shifts left and compresses.
+•The switching threshold Vm (middle of the transition) also scales down with Vdd.
+•The curve at 0.5 V (dc5) is squeezed into a tiny input range — it looks very steep.
+•At 2.5 V (dc1), the VTC is wide and gradual. The transition happens over a larger Vin range.
+
+<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/02d98844-1621-4f07-9060-b7b5ea9e3673" />
+
+2.  Gain — What Changes When Vdd Goes Down?
+Gain = slope of the VTC at the steepest point = dVout/dVin in the transition region.
+The steeper the transition, the higher the gain.
+
+Gain at Vdd = 2.5 V  (dc1)
+|gain| = 7.38   at Vdd = 2.5 V
+
+Gain at Vdd = 0.5 V  (dc5)
+
+<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/4b7dd298-4d19-4f2f-b1cf-0551f3eb877c" />
+
+Improvement:  11.53 / 7.38 ≈ 1.56  →  56% increase in gain
+
+WHY does gain increase when Vdd drops?
+Think about what gain means physically.
+
+•The transistor threshold voltages Vtn and Vtp do NOT scale — they are fixed by the sky130 process.
+•But the supply voltage is smaller, so the output swing is smaller too.
+•The VTC still has to switch from Vout = Vdd to Vout = 0 in roughly the same Vin window near Vth.
+•But now Vdd is much smaller, so the transition is compressed into a shorter vertical drop.
+•Shorter vertical drop over the same horizontal Vin range = steeper slope = higher gain.
+
+The transistors squeeze the full logic swing into a tighter space. Gain goes up.
+
+3.  Energy — The Huge Win at Low Vdd
+The Energy Equation
+
+<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/5d41c6db-89b0-477d-ab58-1aa8b90f24b7" />
+
+Energy  =  ½ C V²
+
+•C:  load capacitance at output (fixed by the circuit, doesn't change with Vdd)
+•V:  the supply voltage Vdd
+
+Energy scales with V SQUARED. This is the key insight.
+Cut V in half → energy drops to ONE QUARTER. Not half. One quarter.
+
+Energy at Vdd = 0.5 V
+
+
+At Vdd = 0.5 V:
+Energy  =  ½ C (0.5)²  =  ½ C × 0.25
+
+At Vdd = 2.5 V:
+Energy  =  ½ C (2.5)²  =  ½ C × 6.25
+
+Ratio:  0.25 / 6.25 = 0.04  →  energy at 0.5V is only 4% of what it was at 2.5V
+That is a 96% reduction in switching energy.
+
+WHY does energy drop so fast?
+Because E = ½CV² has V squared in it.
+
+•V is not linear — the relationship is quadratic.
+•Every time you halve V, energy drops by a factor of 4.
+•This quadratic behaviour is exactly why chip designers obsess over reducing Vdd.
+•Modern chips run at 0.7–1.0 V instead of the old 5V days. This is the reason.
+
+
+Advantages of using 0.5 V supply:
+ •Increase in gain  →  close to 50% improvement  (we measured ~56%)
+ •Significant reduction in energy  →  close to 90% improvement.
+
+ 5.  The Big Problem — Delay Goes Through the Roof
+OK. So we get more gain and way less energy. Sounds perfect right?
+Why don't we just run everything at 0.5 V?
+
+Because there is one huge problem: the inverter becomes very slow.
+
+Dynamic Simulation at 0.5 V
+
+<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/06f5ab57-4784-4e30-bafe-fce5c3d27756" />
+
+
+By Observation:
+•The y-axis is in mV, not V. The output swing is tiny.
+•Rise and fall transitions are sluggish and drawn out over many nanoseconds.
+•The inverter can barely switch. The output looks smeared and weak.
+•This is the disadvantage — very high propagation delay.
+
+Dynamic Simulation at 2.5 V — for Comparison
+
+<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/4f7f12e0-ef97-4cee-9399-7530a369327e" />
+
+By Observation:
+•Output is a crisp inverted square wave.
+•Transitions happen very fast — almost vertical edges.
+•The inverter works exactly as expected at full supply voltage.
+
+The difference between 0.5 V and 2.5 V dynamic behaviour is night and day.
+
+WHY is delay so bad at low Vdd?
+Two things cause this:
+
+•1. Less overdrive voltage:
++Overdrive = Vgs − Vt
++At Vdd = 0.5V and Vt ≈ 0.4V (sky130 NMOS), overdrive is only 0.1V when input is HIGH.
++Almost no overdrive = transistor barely turns on = very high ON resistance Rn.
+
+•2. High Rn × CL = high delay:
++Delay to charge/discharge CL is proportional to Ron × CL.
++We already know: Ron is huge at 0.5V.
++Big resistance × fixed capacitance = slow RC charging = slow switching.
+
+There is no way to fix this without changing the process or topology. It is a fundamental trade-off.
+
+6.  Summary — The Power-Delay Trade-Off
+Lower Vdd → better gain, much less energy, but slower speed.
+Higher Vdd → worse gain, more energy, but faster speed.
+This is called the Power-Delay Trade-Off. Every chip designer has to choose where to sit on this curve.
+
+•Vdd = 0.5 V  →  |gain| = 11.53, energy ≈ 4% of 2.5V case, delay = very high
+•Vdd = 2.5 V  →  |gain| = 7.38, energy = 100% (baseline), delay = very low
+
+Real-world applications:
+•IoT sensor, wearable, pacemaker  →  run at low Vdd, accept slow speed, save battery
+•CPU, GPU, high-speed comms  →  run at higher Vdd, accept higher power, get fast computation
+
+...................................................................
+
+# lECTURE43
+
+
+....................................................................
+
+# LECTURE 44
+
+PART 1 — Sources of Variation: Etching Process Variation
+—WHERE does variation actually come from?
+
+A: It comes from the fabrication process itself.
+
+Two big sources get covered in this lecture:
+
+•Etching process variation  →  affects the physical shape of the transistor gate
+•Oxide thickness variation  →  affects the gate oxide, which changes Cox and Vt
+
+
+
+1.  What Does an Inverter Actually Look Like on Silicon?
+
+<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/6060bfd7-83a0-4dc2-ba89-c42ef8fec72c" />
+Before we can talk about variation, we need to understand what's actually being fabricated.
+
+A single CMOS inverter has 2 transistors — 1 PMOS and 1 NMOS.
+In layout, these are made from three layers stacked and patterned:
+
+•Poly (Red):  this is the gate. It's a polysilicon strip crossing over the active region.
+•P Diff / N Diff (Green):  the diffusion regions. These become source and drain.
+•Metal (Blue):  the wires connecting Vdd, Vss, In, Out.
+
+The PMOS transistor sits at the top (connected to Vdd). The NMOS sits at the bottom (connected to Vss).
+Both gates are tied together — that's the input In (blue wire through the middle).
+
+By Observation:
+•The Poly strip runs vertically (red bar) and crosses through both P Diff and N Diff.
+•Where Poly crosses Diff = that's the transistor channel. That's where switching happens.
+•The key dimensions are L (length of the gate = width of the red Poly strip) and W (width of the channel = length of green Diff region).
+
+<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/2ecf167d-5296-4f69-bbd3-279258fd681d" />
+
+L is THE most important dimension in chip design.
+When people say '5nm process' or '28nm node' — they are talking about L. That's the gate length.
+
+L and W together set the transistor's drive strength, speed, and leakage.
+
+2.  Scaling Up — The Inverter Chain
+
+   <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/8afb04ff-464d-4082-995e-9b913ce91b3b" />
+
+   side by side, each showing Poly (red), P Diff and N Diff (green), Metal (blue). (~2:00)
+A single inverter is easy to visualise. But real chips have millions of gates chained together.
+So now we look at a chain of 8 inverters in series.
+
+In the layout view, you can see 8 identical inverter cells sitting next to each other in a row.
+Every cell has:
+
+•Its own Poly gate (red strip)
+•Its own P Diff (top green) and N Diff (bottom green)
+•Shared Vdd rail at the top (blue horizontal bar)
+•Shared Vss rail at the bottom (blue horizontal bar)
+
+The output of each inverter feeds directly into the gate (Poly) of the next one.
+
+By Observation:
+•All 8 inverters look identical in the layout — same L, same W, same structure.
+•The middle inverters in the chain are sandwiched between two identical neighbours on both sides.
+•This matters — because a gate's electrical environment (what's connected to it) affects its behaviour.
+
+3.  The Problem — Ideal Mask vs Actual Mask
+
+   <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/29132c8a-8ffa-4a1c-a3d0-809cee13015c" />
+
+   When a chip is designed, the designer draws a perfect rectangle for the Poly gate.
+Clean edges. Exact L. Exact W. That's the Ideal Mask.
+
+But when the chip is actually fabricated — something happens.
+
+<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/8ae92b9e-2d61-4474-801c-8136096ec4a6" />
+
+Look at that jagged edge on the Actual Mask.
+
+That roughness is caused by the etching process — and it's unavoidable.
+
+WHY does etching cause this?
+To pattern the Poly gate on silicon, you use photolithography + chemical etching:
+
+•You shine UV light through a photo mask to expose a pattern on the wafer.
+•Then chemicals etch away the exposed Poly, leaving the gate behind.
+•But the chemical etch is not perfectly uniform across the whole wafer.
+•Light diffraction causes edges to be blurry at nanometre scales.
+•The result — the Poly edge ends up rough and jagged instead of clean.
+
+This means the actual L (gate length) on the silicon is NOT exactly what the designer drew.
+It varies slightly from transistor to transistor, across the chip, and across wafers.
+
+4.  Why Middle Gates Are Different from Edge Gates
+5.  <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/9f3323b1-5664-4ffb-a2ca-9285b20d8be9" />
+
+Now here's something subtle but important.
+
+The middle gates in the chain have the same layout structure on both left and right.
+Gate 3 has Gate 2 on its left and Gate 4 on its right. Both are identical.
+This means the etch chemistry around Gate 3 is symmetric — it sees the same environment from both sides.
+
+But the first gate and the last gate are at the edge of the chain.
+Gate 1 has open space on its left and Gate 2 on its right — asymmetric environment.
+
+By Observation:
+•Middle gates: symmetric neighbourhood → etch variation tends to cancel out → L is closer to designed value.
+•Edge gates: asymmetric neighbourhood → etch behaves differently on each side → L can shift more.
+•This is called 'edge effect' or 'proximity effect' in lithography.
+
+WHY does neighbourhood matter for etching?
+•The etching chemicals are shared across the surface of the wafer.
+•Dense regions (many Poly features nearby) etch differently than sparse regions (open space nearby).
+•A gate at the edge sees more open space on one side → etch loading effect → slightly different L.
+•This is a real concern for yield — edge gates behave slightly differently from middle gates even on the same chip.
+
+5.  How Etching Variation Hits the Circuit
+
+   <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/765c1082-1c76-4f27-965f-5f714987ab3a" />
+
+   The drain current equation for a MOSFET in triode (linear) region:
+
+Id  =  u Cox (W/L) [(Vgs − Vt)Vds − Vds²/2]
+
+Let's look at what each term means:
+
+•u (mu):  carrier mobility — electrons for NMOS, holes for PMOS. Fixed by process.
+•Cox:  gate oxide capacitance per unit area = epsilon_ox / t_ox. Fixed by process.
+•W/L:  the width-to-length ratio of the transistor. Set by the designer — but affected by etch!
+•(Vgs − Vt)Vds − Vds²/2:  the voltage-dependent part. Set by circuit operating conditions.
+
+<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/a47494ab-7002-4901-a9e5-937039797d6d" />
+
+There it is. The orange arrow connecting the ragged Actual Mask to the (W/L) term.
+
+By Observation:
+•Etching variation changes the actual L on silicon.
+•If L increases slightly → W/L decreases → Id decreases → transistor is weaker → slower gate.
+•If L decreases slightly → W/L increases → Id increases → transistor is stronger → faster gate (but also higher leakage).
+
+WHY is W/L so critical?
+•Id is directly proportional to W/L. It's not a small correction — it's in the main multiplier.
+•A 10% change in L causes a ~10% change in Id. At modern nodes (L = 5–10nm), even 1nm variation is 10–20%.
+•This directly shifts the VTC, changes the switching threshold Vm, and changes noise margins.
+•In a chain of 1000 gates, each gate has a slightly different Id. Delays accumulate. Timing failures happen.
+
+PART 2 — Sources of Variation: Oxide Thickness
+Second source of variation. This one is different — it doesn't change the shape of the transistor.
+It changes the gate oxide layer — the extremely thin insulating layer between the Poly gate and the silicon channel.
+
+Quick Recap — What is the Gate Oxide?
+•The gate oxide is a layer of SiO2 (silicon dioxide) grown on the silicon surface.
+•It sits between the Poly gate (top) and the silicon channel (bottom).
+•It is the insulator that makes a MOSFET a voltage-controlled device.
+•Thickness = t_ox. In modern nodes, t_ox is only a few atoms thick (1–3 nm in sky130 it's ~4nm).
+
+6.  How Oxide Thickness Affects the Transistor
+The gate oxide thickness t_ox appears in Cox:
+
+Cox  =  epsilon_ox / t_ox
+
+•epsilon_ox:  permittivity of SiO2. This is a material constant — it doesn't change.
+•t_ox:  oxide thickness. This DOES vary slightly during fabrication.
+
+And Cox feeds directly into the drain current:
+
+Id  =  u Cox (W/L) [(Vgs − Vt)Vds − Vds²/2]
+
+By Observation:
+•If t_ox increases slightly (thicker oxide) → Cox decreases → Id decreases → transistor is weaker.
+•If t_ox decreases slightly (thinner oxide) → Cox increases → Id increases → transistor is stronger.
+•Oxide thickness variation causes the same kind of Id scatter as etch variation — just through a different path.
+
+WHY does oxide thickness vary?
+•Oxide is grown by exposing silicon to steam or dry oxygen at high temperature (thermal oxidation).
+•The growth rate depends on temperature, gas flow, and silicon surface quality.
+•Temperature across the furnace tube is not perfectly uniform — hotter spots grow thicker oxide.
+•The same wafer can have slightly different t_ox at the centre vs the edge.
+•Wafer to wafer variation also exists depending on load and gas flow in the furnace.
+
+7.  Oxide Thickness Also Shifts the Threshold Voltage Vt
+There's a second effect that makes oxide variation even more damaging.
+t_ox also affects the threshold voltage Vt — not just Cox.
+
+Vt  =  Vt0  +  gamma (sqrt(|2*phi_F + Vsb|) − sqrt(|2*phi_F|))
+
+Even without the body effect, Vt0 itself depends on flat-band voltage and depletion charge:
+
+Vt0  =  Vfb  +  2*phi_F  +  Qd / Cox
+
+•Qd:  depletion charge. Fixed by doping.
+•Cox:  gate oxide capacitance. Depends on t_ox.
+
+So if t_ox changes:
+•Cox changes → the Qd/Cox term changes → Vt0 shifts.
+•Thicker oxide → lower Cox → larger Qd/Cox → higher Vt → transistor turns on later → Id drops even more.
+•Thinner oxide → higher Cox → smaller Qd/Cox → lower Vt → transistor turns on earlier → Id increases.
+
+WHY is this double-hit so dangerous?
+Etch variation changes W/L → affects Id through one path.
+Oxide variation changes Cox AND Vt → affects Id through TWO paths simultaneously.
+
+•Transistors across the chip all have slightly different Id values.
+•The VTC of each gate shifts slightly.
+•Switching thresholds Vm, noise margins NMH and NML — all vary from gate to gate.
+•This is why designers add margin. You can't count on a perfect VTC.
+
+8.  How These Variations Combine
+In a real chip, both types of variation happen at the same time.
+
+•Etching variation:  changes L and W → changes W/L → changes Id.
+•Oxide thickness variation:  changes t_ox → changes Cox and Vt → changes Id (doubly).
+
+The total variation in Id from all sources can be significant — easily ±10–20% in older nodes, even more in advanced nodes.
+
+This is why fabrication engineers spend enormous effort:
+•Controlling etch uniformity across wafer → tighter L distribution
+•Controlling oxidation temperature uniformity → tighter t_ox distribution
+•Using optical proximity correction (OPC) → pre-distorting the mask so the etched result comes out right
+•Using dummy poly fills → creating symmetric environments for all gates, not just middle ones
+
+9.  Summary — Why Variation Matters for CMOS Inverter Robustness
+All of this connects back to what we started studying — CMOS inverter robustness.
+
+•The CMOS inverter only works well if its VTC has the right shape.
+•Noise margins NMH and NML depend on VOH, VOL, VIH, VIL — all of which shift when Id changes.
+•If Id varies because L varies (etch) or t_ox varies (oxide), the VTC moves.
+•In the worst case, noise margins shrink to zero — the inverter fails to correctly reject noise.
+
+That's the real danger of device variation. It doesn't just slow chips down — it can make them wrong.
+
+Key Equations to Remember:
+Id  =  u Cox (W/L) [(Vgs − Vt)Vds − Vds²/2]
+Cox  =  epsilon_ox / t_ox
+Vt0  =  Vfb  +  2*phi_F  +  Qd / Cox
+
+Etch variation → L shifts → W/L changes → Id changes.
+Oxide variation → t_ox shifts → Cox changes AND Vt changes → Id changes twice over.
+
+
+........................................................................
+
+# lecture 45
+
+1. Single Inverter
+Before we go into sources of variation we need to understand the basic circuit we are working with which is the Single Inverter.This is the most fundamental gate in CMOS circuit design and it is built using one PMOS and one NMOS transistor connected together.
+
+<img width="525" height="388" alt="image" src="https://github.com/user-attachments/assets/f6c5d6bb-2176-4642-9f87-69a8c91bef40" />
+
+From above picture we can observe the basic symbol of single inverter.It takes In as input and gives Out as inverted output.The Vdd is connected at top which is supply voltage and Vss is connected at bottom which is ground.The circle at the output of the triangle symbol indicates inversion.
+
+Now when we expand this inverter symbol into its transistor level schematic we can see whats happening inside.
+
+<img width="688" height="400" alt="image" src="https://github.com/user-attachments/assets/7e0d296c-b009-4a82-b540-998ae10766d8" />
+
+From above image we can observe:
+The Poly Gate(red) is the common gate for both PMOS and NMOS.It is connected to the In signal.This gate decides which transistor is ON and which is OFF.
+The PMOS transistor is at the top connected to Vdd with P Diff(green) as its difusion region.When input is LOW the PMOS turns ON and pulls output to Vdd which gives HIGH output.
+The NMOS transistor is at the bottom connected to Vss with N Diff(yellow-green) as its difusion region.When input is HIGH the NMOS turns ON and pulls output to Vss which gives LOW output.
+The output is taken from the node connecting Drain of PMOS and Drain of NMOS together.
+
+So the inverter works by complementary action of PMOS and NMOS.When one is ON other is OFF.This is why CMOS(Complementary MOS) consumes very low static power because at no point both transistors are ON at same time in ideal case.
+
+1.1 Internal Structure of NMOS in Inverter
+Now if we zoom in further into the NMOS transistor which is circled in the schematic we can see the actual physical device structure.This helps us understand where the oxide thickness tox comes in.
+
+<img width="713" height="400" alt="image" src="https://github.com/user-attachments/assets/976e29d2-353e-4e3d-a618-6d16b47a9aa3" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
