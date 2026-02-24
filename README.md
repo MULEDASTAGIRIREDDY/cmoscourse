@@ -1621,19 +1621,25 @@ VIL - Input Low Voltage
 <img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/dc5a0e95-feac-4a0e-9aeb-b072fcf361ef" />
 
 
+<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/48955318-49e4-4444-9a0a-aba733fbe3d9" />
+
+
+
 From above picture we can observe VIL marked on the actual I/O characteristic.
 VIL is Input Low Voltage
 Any input voltage level between 0 and VIL,output is Vdd or high or Voh.
 Voh is output high voltage.
++ 
 
+
+
+<img width="551" height="307" alt="image" src="https://github.com/user-attachments/assets/4d2534f4-9a0b-4e6e-822c-886ec41ba551" />
 
 VIH is Input High Voltage.
-Any input voltage level which lies above VIH considered as low or Vol.
+
+Any input voltage level which lies between VIH and Vdd considered as low or Vol.
 Vol is output lowvoltage.
 
-
-
-<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/48955318-49e4-4444-9a0a-aba733fbe3d9" />
 
 From above picture we can observe VOH marked on the actual I/O characteristic.
 VOH is Output High Voltage.
@@ -1697,14 +1703,13 @@ So both NMH and NML are large.This is one reason CMOS is preferred over other lo
 
 
 .............................................................
+# 4.2
 
-lectre 37
 
-
-Introduction — Why We Need Noise Margin Parameters
+Why We Need Noise Margin Parameters
 In a real inverter, the VTC is not a perfect rectangle. The output does not switch instantly from Vdd to 0. Because of this finite slope, we cannot simply say 'anything above Vdd/2 is logic 1 and anything below is logic 0'. We need a more careful set of definitions.
 
-Noise margin voltage parameters are those definitions. They tell us exactly what voltage ranges count as valid logic 0 and valid logic 1 — both at the input and the output. They also tell us how much noise the circuit can tolerate before it misreads a signal.
+Noise margin voltage parameters are those definitions. They tell us exactly what voltage ranges count as valid logic 0 and valid logic 1  both at the input and the output. They also tell us how much noise the circuit can tolerate before it misreads a signal.
 
 1. Ideal vs Actual Inverter VTC
 
@@ -1724,15 +1729,13 @@ In a real CMOS inverter the VTC has a finite slope. This means:
 •Vout falls gradually through a transition region around Vdd/2
 •Vout settles near 0 (but not exactly 0) for high Vin
 
-This is the 'Actual I/O Characteristic of an Inverter' shown in the slide. Because the output never reaches exactly 0 V or exactly Vdd, we need to define acceptable ranges — this is where VOL, VOH, VIL, and VIH come in.
 
 2. VOL — Output Low Voltage
 Definition
 VOL  =  Maximum Vout when output is logic 0
 
-From the slide:
 'VOL is Output Low Voltage'
-'=> Any output voltage level between 0 and VOL will be treated as logic 0'
+ Any output voltage level between 0 and VOL will be treated as logic 0'
 
 So if the output of a gate is anywhere between 0 V and VOL, the receiving gate will correctly interpret it as logic 0.
 
@@ -1745,22 +1748,23 @@ VOL > 0 always in a real gate. The magnitude of VOL depends on the NMOS W/L rati
 
 <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/3bbc5ef0-058d-4514-9176-fbc186489627" />
 
-Definition
-VOH  =  Minimum Vout when output is logic 1
+ The above graph shows nearly actual situation.The slope in mid range is still negative.
 
-Any output voltage between VOH and Vdd is reliably interpreted as logic 1 by the receiving gate. So VOH is the guaranteed floor of the HIGH output level.
+ Case 1:
+ + If input value lies in 0,VIL then it is considered as
+   + logic 0 for input
+   + Nearly logic 1 for Output.we call it nearly beacause graph is not showing ideal nature and has some deviation due to resistance,capacitance and other parameters.
 
-By Observation from the VTC
-When Vin is LOW (near 0), the PMOS is strongly ON and NMOS is OFF. PMOS pulls Vout toward Vdd. But because PMOS has a finite ON resistance Rp, Vout does not reach exactly Vdd. It settles just below Vdd — this is VOH.
+Case 2:
++  If input value lies in VIH and Vdd
+ + The input voltage logic is 1
+ + Output voltage logic is Zero.
 
-VOH < Vdd always in a real gate. A wider PMOS (smaller Rp) gives a larger VOH, which is better.
+HERE WE EXPALINED ABOVE POINTS CLEARLY
+ 
 
-Output Voltage Ranges Summary
-•Valid logic 0 output:  0  <=  Vout  <=  VOL
-•Undefined output:  VOL  <  Vout  <  VOH   (transition region — avoid this)
-•Valid logic 1 output:  VOH  <=  Vout  <=  Vdd
 
-4. VIL — Input Low Voltage
+VIL — Input Low Voltage
 
 <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/fb6ab90d-a52b-431a-8475-2467f4cf5a04" />
 
@@ -1787,6 +1791,9 @@ VIH  =  Minimum Vin that is treated as logic 1
 
 Any Vin between VIH and Vdd is guaranteed to produce a valid LOW output (Vout <= VOL). The gate treats it as a reliable logic 1 input.
 
+<img width="791" height="413" alt="image" src="https://github.com/user-attachments/assets/27aa89ec-e180-4b2a-813b-d257453518ae" />
+
+
 How to find VIH on the VTC
 VIH is found at the point on the lower part of the VTC where the slope also equals -1.
 
@@ -1799,31 +1806,8 @@ Input Voltage Ranges Summary
 •Undefined input:  VIL  <  Vin  <  VIH  =>  output is unpredictable (forbidden zone)
 •Valid logic 1 input:  VIH  <=  Vin  <=  Vdd  =>  output is guaranteed LOW
 
-6. All 4 Parameters Together
 
-   <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/e7ee027a-928c-4de5-b00e-593550b4626a" />
-
-   From the slide title: 'L2 Noise margin voltage parameters'
-
-Complete parameter table
-•VOL  — Output Low Voltage   — max Vout for logic 0 output   — on the Vout axis (bottom)
-•VOH  — Output High Voltage  — min Vout for logic 1 output   — on the Vout axis (top)
-•VIL  — Input Low Voltage    — max Vin treated as logic 0    — on the Vin axis (left)
-•VIH  — Input High Voltage   — min Vin treated as logic 1    — on the Vin axis (right)
-
-Noise Margins
-These 4 parameters directly define the noise margins:
-
-NML  =  VIL  -  VOL       (Noise Margin Low)
-NMH  =  VOH  -  VIH      (Noise Margin High)
-
-NML:  How much noise can be added to a LOW signal before the receiving gate misreads it as HIGH. Signal is VOL, gate accepts anything up to VIL — so the margin is VIL - VOL.
-
-NMH:  How much noise can be added to a HIGH signal before the receiving gate misreads it as LOW. Signal is VOH, gate requires at least VIH to read as HIGH — so the margin is VOH - VIH.
-
-Larger NML and NMH means better noise immunity. This is why CMOS is preferred — it naturally has large noise margins because VOL is close to 0 and VOH is close to Vdd.
-
-7. Finding VIL and VIH — The Slope = -1 Method
+  Finding VIL and VIH — The Slope = -1 Method
 
 <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/0442dc5b-097b-4af0-bfca-7ae1d73bdab3" />
 
@@ -1833,22 +1817,11 @@ Both VIL and VIH are found by drawing a tangent line with slope = -1 on the actu
 •Lower slope = -1 point:  on the low Vout region of the VTC   =>  this is VIH
 
 WHY slope = -1?
+
 The slope of the VTC is dVout/dVin — the voltage gain of the inverter. When gain = -1 (slope = -1), the circuit is at the boundary between stable and unstable operation. Below gain = -1 in magnitude (|gain| < 1), the output changes less than the input — the gate is in a stable region. Above gain = -1 in magnitude (|gain| > 1), the output changes more than the input — the gate is in the high-gain transition region where logic levels are unreliable.
 
 So slope = -1 is the exact boundary that separates valid input ranges from the undefined transition zone. This is why VIL and VIH are defined there.
 
-8. Final I/O Characteristic — Plotted to Scale
-
-   <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/c908d04e-69bf-4b9f-ae73-5879d7884b99" />
-
-   The final plot shows the complete actual VTC with all parameters labelled at their correct positions on the axes.
-
-Reading the three regions from the final plot
-Region 1 — Valid LOW input (0 to VIL):  Vout stays above VOH. Output is a valid HIGH. Slope < 1 in magnitude.
-
-Region 2 — Transition (VIL to VIH):  Vout moves between VOH and VOL. Output is undefined. Slope > 1 in magnitude. This region must be avoided in normal operation.
-
-Region 3 — Valid HIGH input (VIH to Vdd):  Vout stays below VOL. Output is a valid LOW. Slope < 1 in magnitude.
 
 Summary — Key Points from This Lecture
 •Real inverters have a finite-slope VTC — not the ideal infinite-slope rectangle.
@@ -1864,72 +1837,43 @@ Summary — Key Points from This Lecture
 
 .............................................................................
 
-Lecture 38
+# 4.3
 
 <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/4453698e-5588-48cd-a1a3-0b0f284b7dd7" />
+ We plot all voltage levels attained on the graph,on scale.
+ + Here we are tryong to NOise margin.
+ + It defines input voltage range and output voltage range.
+ + we discussed Voh > Vin.so it decides logic 1 to next stage of input.
+ + Any voltage which is higher than Vih is denoted as logic 1.
+ + so,for next stage to consider it as high/1,Voh should be greater than Vih and near to Vdd.
+ + Next highe rvalue is Vih.
+ + There is area which is undefined.The next voltage is Vil.
+ + If output is connected to next logic then when we consider output shold be minimum only when Vol is less than Vil.
+ + lowest voltage present output should be less than Vil.
+ + So lowest is Vol.
 
-NMH  =  VOH  -  VIH
+<img width="113" height="237" alt="image" src="https://github.com/user-attachments/assets/a0545182-088b-438d-a0de-7da340b0de29" />
 
-From the slide:  'NMH is the Noise Margin High => Any voltage level in the NMH range will be detected as logic 1'
-
-By Observation
-When a gate outputs logic 1, it produces a voltage of at least VOH. This output drives the input of the next gate. For the next gate to correctly read it as logic 1, the input must be at least VIH.
-
-Since VOH > VIH, the produced signal (at least VOH) exceeds the required threshold (VIH). The difference is:
-
-NMH = VOH - VIH = gap that noise can consume on a HIGH signal before it drops below VIH and becomes unreliable
-
-Physical meaning
-•If noise < NMH:  signal stays above VIH → next gate correctly reads it as logic 1 → circuit works
-•If noise = NMH:  signal is exactly at VIH → right at the boundary → marginal
-•If noise > NMH:  signal drops below VIH → enters undefined region → circuit may fail
-
-3. NML — Noise Margin Low
-
-   <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/fa2d03bc-caf0-4a2e-8da1-40eda7cbe1be" />
-
-   Definition
-NML  =  VIL  -  VOL
-
-By Observation
-When a gate outputs logic 0, it produces a voltage of at most VOL. This output drives the input of the next gate. For the next gate to correctly read it as logic 0, the input must be at most VIL.
-
-Since VOL < VIL, the produced signal (at most VOL) is below the maximum acceptable LOW input (VIL). The difference is:
-
-NML = VIL - VOL = gap that noise can consume on a LOW signal before it rises above VIL and becomes unreliable
-
-Physical meaning
-•If noise < NML:  signal stays below VIL → next gate correctly reads it as logic 0 → circuit works
-•If noise = NML:  signal is exactly at VIL → right at the boundary → marginal
-•If noise > NML:  signal rises above VIL → enters undefined region → circuit may fail
-
-<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/da70f250-c1fb-4aeb-b653-68f5210c1597" />
+From all of our assummptions we get above plot.
+1. Any voltage level which lies in Voh and Vih,It is known as NOISE margin high as it gves logic 1 at both input and output sides.
+   Vin = [Vih,Voh] is known as NM <sub> h </sub>.
+2. Any voltage level which lies in range of Vol and Vil in any side output or input side,It is denoted as Logic "0".It is know as NOISE  MARGIN low(NMl)
+   Vin=[Vol,Vil] is known as Noise margin LOW.(NMl)    
 
 
-Comparison of NMH and NML
-•NMH protects HIGH signals from noise that pulls voltage DOWN
-•NML protects LOW signals from noise that pushes voltage UP
-•Both should be as large as possible for a robust circuit
-•For a symmetric inverter (equal PMOS and NMOS sizing): NMH ≈ NML ≈ Vdd/2 approximately
+NOISE MARGIN HIGH = Voh -Vih
+NOISE MARGIN LOW  = Vil - Vol
 
-4. The Undefined Region
-
-   <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/bd1af7a9-42ec-427f-b411-0dd8028a6fe9" />
-
-From the slide:  'Any Signal in the Undefined Region will be indefinite logic level'
-
-What is the Undefined Region?
-The undefined region is the voltage band between VIH (upper boundary) and VIL (lower boundary) on the input voltage axis. It is the gap between the top of NML and the bottom of NMH.
-
-On the voltage bar:
-•Above VIH → logic 1 zone (NMH region) — gate correctly outputs logic 0
-•Between VIH and VIL → Undefined Region — gate output is unpredictable
-•Below VIL → logic 0 zone (NML region) — gate correctly outputs logic 1
+If bumps lies in Noise Margin High region or Noise Margin low region,it is tolerable.The noise generated in thes emargins is easily removable without harming any circuit.
++ th other parameters that decides noise is Noise split.
++ The region between Vih and Vil is undefined region.
++ ANy bump lies in this region goes into undefined state where it can be logic 0 or logic 1.
 
 WHY is the Undefined Region dangerous?
 When the input is in the undefined region, both PMOS and NMOS are partially conducting. The gate is in its high-gain transition region. A tiny change in input produces a large change in output. The output can land anywhere between VOL and VOH — not at a reliable logic level.
 
 If one gate in a logic chain produces an output in the undefined region, the next gate also receives an input in an unpredictable range. Errors can cascade through the entire circuit. This is why the transition through the undefined region must happen as quickly as possible during switching.
+
 
 5. Noise Margin Summary — Three Cases of Noise Bumps
 
@@ -1988,23 +1932,28 @@ What noise margins tell us
 Three noise bump cases — what determines circuit behaviour
 •Bump < NML (or < NMH): stays in valid zone → circuit works correctly
 •Bump enters Undefined Region: unpredictable output → marginal and unreliable
-•Bump crosses VIH (or VIL): full logic error → circuit fails
+
+
+
+
+
 
 
 ............................................................................
-LECTURE 39
+# 4.4
 
 Noise margin variation with respect to PMOS width
 Static behavior Evaluation : CMOS inverter Robustness
 2. Noise Margin, NMH and NML
 
-Experiment Setup
+Setup
 
 <img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/9cfed354-0347-4944-a57f-802e6284e1be" />
 
+The purpose of this experiment is how Noise Mrgon changes with change in size of NMOS with respect to PMOS.
 
 From above picture we can observe the experiment setup.
-There is a table on the left side with two columns:
+table on the left side with two columns:
 •Wp/Lp: PMOS width to length ratio (kept same Wp/Lp in all cases)
 •x.Wn/Ln: NMOS width multiplied by x (this is the PMOS width relative to NMOS)
 
@@ -2015,8 +1964,7 @@ We run 5 SPICE simulations.In each simulation we increase the PMOS width:
 •Row 4: Wp/Lp with 4Wn/Ln (PMOS width = 4x NMOS width)
 •Row 5: Wp/Lp with 5Wn/Ln (PMOS width = 5x NMOS width)
 
-Bottom row of table shows NMH and NML values for each case.
-Green curve on graph is the VTC(Vout vs Vin).Blue lines show the slope = -1 points which give VIL and VIH.
+
 
 Case 1: Wp/Lp with Wn/Ln (1x PMOS width)
 <img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/237645a3-a3b5-4ca1-a108-0ffe8427956e" />
@@ -2105,27 +2053,21 @@ Connection to Digital Design
 <img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/e5233755-9b8e-4e36-801f-2401eb9e9faa" />
 
 
+<img width="790" height="443" alt="image" src="https://github.com/user-attachments/assets/d684fa79-52bf-455f-9f2f-84cc192c725e" />
+
+
 From above picture we can observe the connection to Digital Design concept marked on the VTC.
++ For digital design,the values are taken in NOise margin regions.
++ For analog design the values between these margins or in undeined region is used.
++ 
 In Digital Design we always assume inverter is symmetric and VTC is ideal.But in real CMOS design:
 •PMOS is always made 2x to 3x wider than NMOS to compensate for lower PMOS mobility.
 •This ensures Vm is close to Vdd/2 which gives symmetric NMH and NML.
 •If we dont size PMOS correctly then Vm shifts and one of NMH or NML becomes too small.
 •Small noise margin means the circuit can give wrong output even with small noise on the wire.
 
-In standard cell libraries all the cells(AND,OR,NAND,NOR etc) are designed with correct PMOS to NMOS ratio so that noise margins are always within acceptable limits.This is part of cell characterization in Physical Design flow.
 
-WHY this experiment is important?
-This experiment shows us:
-•PMOS width directly controls where the VTC sits.
-•Vm increases as PMOS width increases.
-•NMH and NML are not independent.Increasing one may decrease the other.
-•There is an optimal PMOS width(around 3x NMOS) for balanced noise margin.
-•In chip design,PMOS is always made wider than NMOS.Standard sizing is 2x to 3x.
 
-For Physical Design engineers this matters because:
-•If you change PMOS width during ECO(Engineering Change Order) it will shift Vm and affect timing.
-•Noise margin must be checked during signoff.If NMH or NML is too small the chip may fail in noisy environments.
-•In advanced nodes(7nm,5nm) PMOS and NMOS mobilities are closer so the ratio needed is smaller.
 
 ..........................................................................
 
