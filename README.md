@@ -889,7 +889,7 @@ This constraint is the key to the whole graphical method. The actual Vout for an
 
    <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/24ee3205-5d53-4aae-8eff-3b574e5d55e3" />
 
-Figure 2 – NMOS IdsN vs VdsN (left) and PMOS IdsP vs VdsP (right) characteristic curves (~1:00)
+Figure 2 – NMOS IdsN vs VdsN (left) and PMOS IdsP vs VdsP (right) characteristic curves 
 NMOS Characteristics: IdsN vs VdsN
 The left chart shows 5 families of curves for VgsN1 through VgsN5 (increasing from bottom to top). Each curve shows 2 regions of behaviour:
 
@@ -919,11 +919,11 @@ This is the bridge between the PMOS curves (which are labeled in VgsP) and the i
 The Mapping Table (Vdd = 2V)
 For Vdd = 2V, the mapping is:
 
-• Vgsp1 = 0 V      →   Vin = 0 + 2 = 2.0 V   (PMOS barely ON)
-• Vgsp2 = -0.5 V   →   Vin = -0.5 + 2 = 1.5 V
-• Vgsp3 = -1.0 V   →   Vin = -1.0 + 2 = 1.0 V  (transition region)
-• Vgsp4 = -1.5 V   →   Vin = -1.5 + 2 = 0.5 V
-• Vgsp5 = -2.0 V   →   Vin = -2.0 + 2 = 0.0 V  (PMOS fully ON)
++  Vgsp1 = 0 V      →   Vin = 0 + 2 = 2.0 V   (PMOS barely ON)
++  Vgsp2 = -0.5 V   →   Vin = -0.5 + 2 = 1.5 V
++  Vgsp3 = -1.0 V   →   Vin = -1.0 + 2 = 1.0 V  (transition region)
++ Vgsp4 = -1.5 V   →   Vin = -1.5 + 2 = 0.5 V
++ Vgsp5 = -2.0 V   →   Vin = -2.0 + 2 = 0.0 V  (PMOS fully ON)
 
 Physical Meaning of the Mapping
 This mapping confirms the inverter behavior from the PMOS side:
@@ -932,7 +932,7 @@ When Vin = 0: VgsP = -2V. PMOS has large negative gate-source voltage — it is 
 
 When Vin = 2V (= Vdd): VgsP = 0V. PMOS gate and source are at same potential — it is OFF. NMOS is strongly ON and pulls output to Vss. Output is LOW. Correct behavior for HIGH input.
 
-When Vin = 0.5 V, 1.0 V, 1.5 V: Both transistors conduct simultaneously. This simultaneous conduction in the transition region is what creates the steep, high-gain transition in the VTC. It also causes a brief current spike (short-circuit current) during switching — this is a source of dynamic power loss.
+When Vin = 0.5 V, 1.0 V, 1.5 V: Both transistors conduct simultaneously. This simultaneous conduction in the transition region is what creates the steep, high-gain transition in the Voltahr Characteristics Curve. It also causes a brief current spike (short-circuit current) during switching,this is a source of dynamic power loss.
 
 4. Superimposing PMOS Load Lines on NMOS Plot
 
