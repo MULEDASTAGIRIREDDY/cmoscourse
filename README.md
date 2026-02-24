@@ -955,7 +955,7 @@ After these transformations each PMOS curve becomes a load line on the IdsN vs V
 These load lines are analogous to the resistive load lines used in BJT amplifier analysis. The difference here is that they are curved (not straight) because the PMOS follows its I-V characteristic, not a linear V=IR relationship.
 
 5. Finding Operating Points and Building the VTC
-6. <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/fbf4e86f-3cd7-4ac2-8127-84711d5c1018" />
+  <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/fbf4e86f-3cd7-4ac2-8127-84711d5c1018" />
 
 Figure 5 – NMOS curves and PMOS load lines overlaid; intersection points are operating points 
 For each value of Vin, there is exactly one intersection between the corresponding NMOS curve and PMOS load line. This is guaranteed because NMOS current increases with Vout (for fixed Vin) while PMOS load line decreases with Vout — two monotone curves in opposite directions must cross exactly once.
@@ -999,21 +999,12 @@ This method gives us physical intuition that algebraic solutions can't easily pr
 
 +If Vdd is reduced, how does the VTC shift? — Curves compress, Vm shifts, noise margins shrink
 +If PMOS width is doubled, what happens? — PMOS curves shift up, more current, Vm increases
-+If Vtn increases (process variation), what changes? — NMOS curves shift, Vm shifts downward
-
-All of these can be visualized directly on the combined plot — without resolving equations from scratch each time. This is why the graphical I-V approach is taught before any analytical model.
-
-Summary — Key Equations from This Lecture
-•VgsN = Vin                           [NMOS gate-source voltage]
-•VdsN = Vout                          [NMOS drain-source voltage]
-•VgsP = Vin - Vdd                     [PMOS gate-source voltage]
-•VdsP = Vout - Vdd                    [PMOS drain-source voltage]
-•IdsP = - IdsN                        [KCL constraint at output node]
-•Vin  = VgsP + Vdd                    [Vin-to-VgsP conversion]
-•Vm   = Vdd/2  (symmetric inverter)   [Switching threshold]
++If Vtn increases (process variation), what changes? — NMOS curves shift, Vm shifts downward.
 
 
-Next Lecture Preview: We will formally define the Voltage Transfer Characteristic (VTC), identify noise margins NMH and NML from the VTC curve, and calculate the unity-gain points VOH, VOL, VIH, VIL. These parameters tell us how robust the inverter is to noise in a real digital system.
+
+
+
 
 .........................................................................................
 
@@ -1021,16 +1012,19 @@ Next Lecture Preview: We will formally define the Voltage Transfer Characteristi
 
 L5 – Step 3: Converting I-V Curves to Load Curves
 
-<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/3766d885-ebe9-4033-ba0c-f4f895ad6a74" />
+<img width="884" height="475" alt="image" src="https://github.com/user-attachments/assets/3bd9f35e-4707-4b38-bcf9-cb9a9c484e3a" />
 
-Figure 1 – Recap slide: PMOS curves relabelled with Vin values, VgsP-to-Vin table, and observation equations (~0:33)
-In the previous lecture (L4) we observed the voltage relationships in the CMOS inverter circuit and relabelled the PMOS I-V curves with their equivalent Vin values. This lecture takes that one step further.
+Figure 1 – Recap slide: PMOS curves relabelled with Vin values, VgsP-to-Vin table, and observation equations.
+
+we done step 1 where we converted VgsP as a function of Vin.
+Next VdsP as a function as Vout.
+
 
 The goal here is to convert both the PMOS and NMOS I-V curves from their original terminal voltage axes (VdsP and VdsN) to the Vout axis. Once both sets of curves are on the same Vout axis, we can overlay them and find the operating point of the inverter for each Vin.
 
 Step 1 — Converting PMOS Curves to Vout Axis
 
-<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/478e92e2-b01c-4e03-90ec-4fb48bf30ccd" />
+<img width="873" height="464" alt="image" src="https://github.com/user-attachments/assets/4222c1e3-3b95-45b5-9f4d-0154aef2792c" />
 
 Figure 2 – PMOS curves (left) being transformed to IdsN vs Vout axes (right) using Vout = Vdd + VdsP (~2:03)
 The Conversion Formula
@@ -1044,6 +1038,8 @@ How the x-axis changes
 Before the substitution, the PMOS x-axis ran from VdsP = 0 (at the right) to VdsP = -Vdd (at the left). After the substitution:
 •VdsP = 0     →   Vout = Vdd + 0 = 2 V   (right side of the new plot)
 •VdsP = -Vdd  →   Vout = Vdd - Vdd = 0 V  (left side of the new plot)
+
+when Vout becomes 2V,At Vout = 2V the current is Zero which states output capacitor is ully charged and no charging current lows through it.so,it Vout=2V eventhogh we vary Vdd.
 
 So the new Vout axis runs from 0 V (left) to 2 V (right). The PMOS curves, which ran right-to-left in VdsP, now naturally run right-to-left in Vout too — starting at high Vout near Vdd and falling toward Vout = 0.
 
@@ -1062,7 +1058,7 @@ The PMOS load curves now look like this on the IdsN vs Vout axes:
 •Vin = 1.5  →  fourth curve
 •Vin = 2  →  bottom curve  (PMOS barely ON, nearly zero current)
 
-All curves start at the right (Vout near Vdd) and fall as Vout moves left toward 0. This is the opposite direction compared to NMOS curves — which rise from the left. That opposing shape is exactly what allows them to intersect and define an operating point.
+All curves start at the right (Vout near Vdd) and fall as Vout moves left toward 0. This is the opposite direction compared to NMOS curves  which rise from the left. That opposing shape is exactly what allows them to intersect and define an operating point.
 
 Step 2 — The Final PMOS Load Curve
 <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/b02d0f6c-9f76-4efd-b612-ac3ad29a2c7a" />
@@ -1145,11 +1141,13 @@ Summary — Key Equations from This Lecture
 
 # Lecture 26
 
-Step 4 — Merging Load Curves and Building the VTC
+Step 4 — Merging Load Curves and Building the VTC.
 
 <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/f4493837-aa47-4a0a-9ec3-91b64817bbb7" />
 
-Figure 1 – Both load curves side by side. Centre: NMOS load curve (Vin = 0 bottom, Vin = 2 top). Right: PMOS load curve (Vin = 0 top, Vin = 2 bottom). VTC axes empty at bottom right (~0:35)
+Figure 1 – Both load curves side by side. 
++ Centre: NMOS load curve (Vin = 0 bottom, Vin = 2 top). 
++ Right: PMOS load curve (Vin = 0 top, Vin = 2 bottom). VTC axes empty at bottom right.
 In the previous lecture (L5) we converted both the PMOS and NMOS I-V curves into load curves on the same IdsN vs Vout axes. Now we merge them onto a single plot and read the operating points.
 
 The idea is simple:
@@ -1159,16 +1157,18 @@ The idea is simple:
 
 Step 1 — Superimposing Both Load Curves
 
+
 <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/9015dc1d-3d50-4139-9a48-dcde769283fc" />
 
-Figure 2 – NMOS and PMOS load curves merged on one IdsN vs Vout plot. PMOS runs top-right to bottom-left, NMOS runs bottom-left to top-right (~0:50–1:40)
-From observation, Vin and Vout are common to both transistors — the same Vin drives both gates, and the same Vout appears at both drains. So for a given Vin:
+Figure 2 – NMOS and PMOS load curves merged on one IdsN vs Vout plot. PMOS runs top-right to bottom-left, NMOS runs bottom-left to top-right.
 
-•One PMOS load curve is active (selected by that Vin value)
-•One NMOS load curve is active (selected by that same Vin value)
+From observation, Vin and Vout are common to both transistors  the same Vin drives both gates, and the same Vout appears at both drains. So for a given Vin:
+
++  PMOS load curve is active (selected by that Vin value)
++  NMOS load curve is active (selected by that same Vin value)
 •The intersection satisfies IdsP = -IdsN, which is the KCL constraint at the output node
 
-The slide states: 'Vin and Vout are common to PMOS and NMOS. Graphically, we will pick up Vin points from the intersection of corresponding load lines.'
++ Vin and Vout are common to PMOS and NMOS. Graphically, we will pick up Vin points from the intersection of corresponding load lines.
 
 WHY do they cross exactly once?
 The NMOS load curve rises from left to right (current increases as Vout increases, for fixed Vin). The PMOS load curve falls from right to left (current decreases as Vout decreases from Vdd). They are monotone in opposite directions — so they must cross exactly once. That crossing is the unique stable operating point.
@@ -1187,27 +1187,28 @@ Operating Point 1 — Vin = 0 V
 
 <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/7003fc21-a4af-4dbc-adc1-24f9826552f6" />
 
-Figure 4 – Second intersection point: When Vin = 0.5, 1.5 < Vout < 2. VTC dot at (~0.5, ~1.9). PMOS linear, NMOS sat (~2:30–3:20)
+Figure 4 – Second intersection point: When Vin = 0.5, 1.5 < Vout < 2. VTC dot 
 Operating Point 2 — Vin = 0.5 V
-•NMOS:  VgsN = 0.5 V → slightly above threshold → NMOS barely ON → small IdsN
-•PMOS:  VgsP = 0.5 - 2 = -1.5 V → still strongly ON
-•Intersection:  Occurs at Vout between 1.5 V and 2 V — approximately 1.9 V
-•Region:  PMOS linear, NMOS saturation
-•Physical meaning:  PMOS still dominates and holds output near Vdd. NMOS starts to pull down slightly.
++ NMOS:  VgsN = 0.5 V → slightly above threshold → NMOS barely ON → small IdsN
++ PMOS:  VgsP = 0.5 - 2 = -1.5 V , still strongly ON
++ Intersection:  Occurs at Vout between 1.5 V and 2 V — approximately 1.9 V
++ Region:  PMOS linear, NMOS saturation
++ Physical meaning:  PMOS still dominates and holds output near Vdd. NMOS starts to pull down slightly.
 
 <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/def7cd6d-e138-4254-8666-795bddd29ef5" />
 
-Figure 5 – Third intersection point: When Vin = 1, 0.5 < Vout < 1.5. VTC dot at (~1, ~1). PMOS sat, NMOS sat. VTC now showing steep fall (~3:20–4:10)
+Figure 5 – Third intersection point: When Vin = 1, 0.5 < Vout < 1.5. VTC dot. PMOS sat, NMOS sat. VTC now showing steep fall.
+
 Operating Point 3 — Vin = 1 V (Transition Region)
-•NMOS:  VgsN = 1 V → moderately ON
-•PMOS:  VgsP = 1 - 2 = -1 V → moderately ON
-•Intersection:  Occurs near Vout = 1 V — the midpoint
-•Region:  PMOS saturation, NMOS saturation
-•Physical meaning:  Both transistors are simultaneously conducting in saturation. This is the highest-gain region of the inverter. A small change in Vin produces a large change in Vout here.
++ NMOS:  VgsN = 1 V → moderately ON
++ PMOS:  VgsP = 1 - 2 = -1 V → moderately ON
++ Intersection:  Occurs near Vout = 1 V — the midpoint
++ Region:  PMOS saturation, NMOS saturation
++ Physical meaning:  Both transistors are simultaneously conducting in saturation. This is the highest-gain region of the inverter. A small change in Vin produces a large change in Vout here.
 
 <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/dd0253b7-88c7-48bc-91d5-2693d3dc9651" />
 
-Figure 6 – Fourth intersection point: When Vin = 1.5, 0 < Vout < 0.5. VTC dot at (~1.5, ~0.1). PMOS sat, NMOS linear (~4:10–5:00)
+Figure 6 – Fourth intersection point: When Vin = 1.5, 0 < Vout < 0.5. VTC dot. PMOS sat, NMOS linear.
 Operating Point 4 — Vin = 1.5 V
 •NMOS:  VgsN = 1.5 V → strongly ON → in linear region for this Vout range
 •PMOS:  VgsP = 1.5 - 2 = -0.5 V → barely ON → in saturation
@@ -1225,17 +1226,16 @@ Operating Point 5 — Vin = 2 V
 Step 3 — The Complete VTC
 
 <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/c7f462e0-dc0f-407c-af1d-33d7c3557e0d" />
-<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/63fd4dc1-3fd5-4863-892c-ef27f6aa21ef" />
 
-Figure 7 – Complete VTC with all 5 operating points plotted and connected. Each point labeled with transistor regions. The S-shaped VTC is now fully derived (~5:00–5:34)
+Figure 7 – Complete VTC with all 5 operating points plotted and connected. Each point labeled with transistor regions. The S-shaped VTC is now fully derived.
 Plotting the 5 operating points on the Vout vs Vin graph and connecting them gives the complete Voltage Transfer Characteristic (VTC) of the CMOS inverter.
 
-Summary table of all 5 operating points
-•Vin = 0.0 V  →  Vout = 2.0 V   |  PMOS linear,  NMOS off
-•Vin = 0.5 V  →  Vout ≈ 1.9 V  |  PMOS linear,  NMOS saturation
-•Vin = 1.0 V  →  Vout ≈ 1.0 V  |  PMOS sat,     NMOS saturation  ← transition region
-•Vin = 1.5 V  →  Vout ≈ 0.1 V  |  PMOS sat,     NMOS linear
-•Vin = 2.0 V  →  Vout = 0.0 V   |  PMOS off,     NMOS linear
+# Summary table of all 5 operating points
++ Vin = 0.0 V  →  Vout = 2.0 V   , PMOS linear,  NMOS off
++ Vin = 0.5 V  →  Vout ≈ 1.9 V  ,  PMOS linear,  NMOS saturation
++ Vin = 1.0 V  →  Vout ≈ 1.0 V  ,  PMOS sat,     NMOS saturation  ← transition region
++ Vin = 1.5 V  →  Vout ≈ 0.1 V  ,  PMOS sat,     NMOS linear
++ Vin = 2.0 V  →  Vout = 0.0 V  ,  PMOS off,     NMOS linear
 
 What we can observe from the VTC shape
 Low Vin region (0 to ~0.5 V):  Vout stays near Vdd = 2 V. Output is HIGH. PMOS dominates.
@@ -1258,16 +1258,309 @@ The steeper the VTC transition, the higher the noise margin of the gate. CMOS in
 
 These 5 regions correspond exactly to the 5 segments of the VTC curve. They will be analysed in detail in the next lecture when we formally define noise margins, switching threshold Vm, VOH, VOL, VIH, and VIL.
 
-..............................................................................................
-<head>DAY4</head>
+# DAY 2.6
 
+............................................................................................
+
+# DAY 3.1
+
+<b> SPICE SIMLATIONS </b>
+
+   # SPice Deck
+   + it is the connectivity inormation about a netlist such as:
+    + Tap points where we take output.
+    + Connectivity information.
+    + Input parameters that need to be provided.
+
+     <img width="451" height="380" alt="image" src="https://github.com/user-attachments/assets/577e6aef-679e-4701-8b29-26cfb3b0bda3" />.
+
++ Here we create spice deck for complete netlist.We have PMOS which denoted by using arrows rather than Dot at gate.likewise we are diferentiating PMOS and NMOS by direction of arrows.
++ we deine connectivity of  substrate.It is potential component on PMOS and NMOS.
++ so we nee dto define its connectivity.
++ We need to see  bias of Substarte which can tune threshold voltage.
+
+Connections:       
++ source of PMOS connected to Vdd.
++ source of NMOS is connected to Vss.
++ WE have input voltage an doutput load capacitance which depends on many parameters.
++ we assueme it as 10emto farads.
+
+Deine Component Values:
+
+<img width="419" height="376" alt="image" src="https://github.com/user-attachments/assets/30ae19f8-a5a3-4439-ac16-cea900daeb2a" />
+
++ PMOS W=0.375u,L=0.25u.
++ NMOS W=0.375,L=0.25u.
++ Cload=10fF.,
++ PMOS should be wider than NMOS.(ideally)
++ input gate voltage as 2.5V.
++ Assume drain voltage/Supply Voltage 2.5V. 
++ Connect common Vss.
+
+   
+# Identiy 'NODES'
+
+<img width="486" height="403" alt="image" src="https://github.com/user-attachments/assets/022f2f91-f509-4505-85d0-74fbb81ee1ec" />
+
++ M1 is deined between 3 nodes.
++ Load capacitor defined btween 2 nodes.
++ These deined Spice Netlist.
++ We kep names to Nodes as 0,in,out.
+
+Netlist Description
+
+<img width="457" height="103" alt="image" src="https://github.com/user-attachments/assets/c9fc1f20-3c75-4704-88d9-941b09a708e7" />
+
+Drain,gate,source,substrate order of syntax for nodes as M1
++ Drain is connected to out.
++ Gate is connected to Vin.
++ Substrate is connected to Vdd
++ Source is connected to Vdd.
++ Type is PMOS.
++ W=0.375
++ L=0.25
+Similarly to M2
+
+# Day 3.2
+
+<img width="410" height="358" alt="image" src="https://github.com/user-attachments/assets/8a0f749e-1713-4703-966a-4a774be38e18" />
+
++ M2 as NMOS,it is connected in formm of Drain,gate source substrate.
++ Other parameters such as capaitor load as 10fF connected between out and o.
++ Vdd as 2.5V connected between vdd and 0
++ Vin as 2.5V connected between in and 0.
+
+<img width="820" height="355" alt="image" src="https://github.com/user-attachments/assets/d99b51ea-5c3d-4302-9036-0744d81d8f6b" />
+
+
+  Simulation commands
+
+  + sweep gate input voltage rom o,2.5 at steps o 50mv and measuring outpt waveform.
+  + inally we need to upload MODEL ile where it takes prameters of NMOS,PMOS.
+
+#   SIMULATION(3.2,3.3)
+
+
+
+
+................................................................................
+
+# DAY 3.2.1
+
+ # Switchinh Threshold.
+
+ <img width="477" height="383" alt="image" src="https://github.com/user-attachments/assets/79c621e8-015c-4986-b44d-9e939b36a5bf" />
+
+ Analysing the SPICE wavefrom or graph that we simulated.
+
+
+ <img width="1843" height="860" alt="image" src="https://github.com/user-attachments/assets/3be3b82d-25cc-4e51-89fa-7ef057168f00" />
+
+
+
+we are comparing 2 waveform with diferent parameters as given Wn=0.375u,Ln,p+0,25u and Wn=0.375u,Wp=0.9375u,Lnn,p=0.25u.
++ the shapes of waveforms are almost same.This states that CMOS inverter is Robust.
++ Vin is high output is 0,Vin is low output is 0.
+
+1) Switching Threshold(Vm):The point at which the device switches.
+2) Noise margin
+    The above states characteristics of device.
+
+SWitching threshold Vin = Vout
+
+<img width="1834" height="667" alt="image" src="https://github.com/user-attachments/assets/332947aa-ce41-495b-a51f-12d9aa65ee0a" />
+
+<img width="798" height="428" alt="image" src="https://github.com/user-attachments/assets/685edbac-1492-4321-bdeb-bf95f7a4a34b" />
+
+
++ By drawing a ine o tan45 we will find a point where line intersects Graph.The intersection point is switching threshold Voltage.(0.9)
+
++ For bigger width we observe switching threshold at 1.2V
+
++ At switching point both CMOS and NMOS are at saturation point states taht both are turned ON.
++ This results in chances of leakage of current.
++ In two regions either o the devics is of,so there is no current lows from power to ground except at Vm.
+
+
+<img width="762" height="365" alt="image" src="https://github.com/user-attachments/assets/cf2d72aa-8873-438a-b034-c283d68343ec" />
+
++ Case 1:
+   + When Vin = Vout,gate voltage Vgs = Vds drain voltage Vgs>>Vt.
+   + At this point current magnitude in both PMS and NMOS is same but direction is opposite.
+   + IdsP=-IdsN,same magnitude but diferent direction.
+
+.....................................................................................
+# 3.2.2
+
+<img width="851" height="430" alt="image" src="https://github.com/user-attachments/assets/154a47a1-46a0-40f2-90ec-f7bd2dd7d42c" />
+
+Vm is point where output switches.We are analysing for 2 conditions.we are evaluationg analytical behavior.
+
+<img width="641" height="315" alt="image" src="https://github.com/user-attachments/assets/8859770c-adb6-486e-bfe8-e0342af3f94e" />
+
+ We are  checking where NMOS and PMOS lies in Velocity saturation region.
+ Vds=Vgs - Vt as Vt is small
+ we get Vds = Vgs.
+
+ <img width="752" height="324" alt="image" src="https://github.com/user-attachments/assets/8a7f0e78-e6b0-41d8-a299-cca93f422cae" />
+  By kirchof law we get equation shown in above picture.It shows there is complete dependency of Vm on IdsN and IdsP.we solve IdsP,IdsN to get value of Vm.
+
+1)we define value of Vm by W,L values:
+   <img width="413" height="97" alt="image" src="https://github.com/user-attachments/assets/9511d679-2791-47ee-a34c-ae2e5d0a35e4" />
+
+   + Drain current value equation is shown above.
+   + Vdsat  is saturation voltage value
+   +  ignore Lamba  for derivtio a sit is nearlly equalt to 0.
+   +  we have 2 values of Vgs:
+    + one for PMOS.
+    + one for NMOS.
+      
+<img width="316" height="78" alt="image" src="https://github.com/user-attachments/assets/5297dd0d-be20-42e4-90e0-4fe22fb95913" />
+
+NMOS for drain currwnt is in terms IdsN,Kn
+VgsN=Vm,Vt
+
+<img width="809" height="327" alt="image" src="https://github.com/user-attachments/assets/ac6bdc68-e5e5-4131-b5a4-1261122c454f" />
+
+
+similarly we dit it for PMOS:
+ Vin = Vout evalluating at this point.
+ Vgsp= Vm-Vdd
+ Vm=Vin=Vout      
+
+ These are values o drain current.
+
+ we will solve  Idsn and Idsp by equating it to zero.
+
+   <img width="110" height="37" alt="image" src="https://github.com/user-attachments/assets/82628589-4f01-498e-869e-37bb4a917ff6" />
+
+   solving the equation
+
+   <img width="1486" height="1155" alt="image" src="https://github.com/user-attachments/assets/3695e978-7c12-4540-83db-a54e8c5bdf39" />
+
+   where R is    <img width="215" height="58" alt="image" src="https://github.com/user-attachments/assets/7765212b-e555-4d5c-a965-878075acebd4" />
+R is constant.Thi is known a sProcess transconductance.
++ It si a gain factor.
++ Kp is function of Wp/Lp
++ Kn is unation of Wn/Ln
+
+  we get all parmetric values rom Model files and we we get value of R.
+  from that we will get value of Vm.
+
+
+# lecture 3.2.3
+
+ Case 2:  We try to set value of Vm and evaluate  W/L values of both NMOS and PMOS.  
+
+  <img width="831" height="339" alt="image" src="https://github.com/user-attachments/assets/44ed4957-db0f-421d-8bb6-44810651a491" />
+
+
+  + set value of Vm.let assume power supply is 2.5V
+  + To switch transsistors exactly at Half of  power supply i.e 1.25V
+    + To  satisy above condition what should be value of W/L ratio of PMOS and NMOS.
+
+Expression remains same by subjecting W/L values in terms of Vm for both PMOS and NMOS.
+Application for this is when we have operation of clock tree with some predefined targets o Vm then we need to tune W/L ratio of PMOS and NMOS to get required results.
+
+Derivation:
+
+<img width="1920" height="1449" alt="image" src="https://github.com/user-attachments/assets/b73642e9-0f6d-4525-b2e1-b65676c352a9" />
+
++ equation states about the diference in ratios of W/L ration PMOS and NMOS completely depnding on single variable which is Vm.
+
+# Lecture 3.2.4(SIMULATION)
+
+<img width="812" height="460" alt="image" src="https://github.com/user-attachments/assets/4376ed47-da85-4076-b761-b6b38fef02ac" />
+
+ Here we are going to find the value so SWITCHNG THRESHOLD by varying W/L ratios of NMOS.
+  we did our SPICE simlation.
+
+
+<img width="1227" height="907" alt="image" src="https://github.com/user-attachments/assets/c2b0f993-4508-443c-bac5-4bf76bab72c6" />
+
+ To calculate switching threshold we will draw a line with slope 1 and find intersection point.This is Vm.
+ + From this we can ind dynamic simulation such as Rise and Fall delay.we identify what is Rsie and All and how doe sit vary with Vm.
+ + everything is same,we just change input to Pulse.This is known as Transient analysis.
+
+Pulse:
+
+ <img width="775" height="338" alt="image" src="https://github.com/user-attachments/assets/757be93e-94c0-4d1a-86e2-7f0922fdf5c2" />
+
+ + Pulse starts rom Zero and ends at 2.5V with shit value zero.
+ + starts exactly ar=t time unit 0.
+ + rise time of 10ps and fall time of 10ps.
+ + complete cycle of 2ns with duty cycle of 1ns.
+
+   Results:
+
+   <img width="759" height="473" alt="image" src="https://github.com/user-attachments/assets/a68893f0-2cb5-4913-ba64-936f1753ab25" />
+
+
+   we can find rise delay from graph.
+   + Rise delay is difference between Vin at falling edge and Vout at raising point exactly at midpoint..
+   + similarly for fall delay.It is dierence between the Voltage at raising of Vin and  falling of Vout exactly at 50% value of Vin i.e 1.25V.
+
+     <img width="759" height="389" alt="image" src="https://github.com/user-attachments/assets/8e1b0b31-f35e-475f-b23d-59e1a0fa61bc" />
+
++ For given values of Kp,Kn,the rise delay is 148ps and fall delay is 71ps for Vm=0.99V.
+
+  # Lecture 3.2.5(SIMULATIONS)
+
+
+
+
+
+  # Lecture 3.2.6
+
+  Until now we found Rise Delay,Fall Delay for diferent value of W/L ratios of PMOS and NMOS.By varying PMOS size w.r.t NMOS change in Vm is very low eventhough we change NMOS 2 to 3 times of PMOS.
+
+  Adavantages:
+  +  Vm changes is small with change in NMOS size,which is very important to Inverter behaviour.
+  +  I fab makes PMOS size $.5 times of NMOS size,CMOS inverter behaves as it is eventhough there is some vary in required size.
+  +  The rise dealy and all delay is samem at same point which is important feature is
+    clock cell.
+  + If we design CMOS of 1.2V there is possibility to get inverter where there is exactly sam efall and rise delay.
+ 
+  <img width="856" height="506" alt="image" src="https://github.com/user-attachments/assets/85cfab3e-81d0-4777-aab1-4fdf62d2d8b8" />
+
+ + Fou our W/L ratio we may get graph with unequal rise and all time.
+ + The above shown picture is image of Clock tree which is made of buffers,where we get both rise time and All time is same.
+ + These are known as Clock inverters or clock buffers.
+  + PMOS = NMOS where their resistances match.(we didnot see size of PMOS and NMOS,we will take its resistances into or account.)
+  + PMOS is 2-2.5 times of NMOS to get equal resistances which is required for clock Inverter.
+
+
+<img width="707" height="504" alt="image" src="https://github.com/user-attachments/assets/88d6b80a-fe73-4947-aef9-759f67b5281b" />
+
+the above shows about a clock cell where input waveform is equal to output waveform.
++ By using other which is not a clock cell we save area but we get unequal parts of rise eand delay.
++ Depends on end result we select our required Time cells.
+
+    # SETUP analysis
+
+     <img width="821" height="450" alt="image" src="https://github.com/user-attachments/assets/bbeb5b7d-551d-4e9e-8d32-bf55c70cdf5b" />
+
+     Above shows data path and conditions for slack is positiv or zero.
+  + for that to be valid we need data arrival time be less tahn data required time.
+  + If data required time is less than Data arrival time then we can reduce the daely of data arrival time by plugging required  clock cell to reduce ris edealy as abouve circuit depensds only on RISE delay.
+
+ <img width="784" height="252" alt="image" src="https://github.com/user-attachments/assets/c10dde90-3790-40f6-9a50-9b5931ebc945" />
+
+
+  + Here we have total of 5 inverters,where we can use one or clock cell and other for delay Time.
+
+
+
+
+<head> DAY4 </head>
+# DAY 4.1
 # Introduction to NOisse margin.
 Static behavior Evaluation : CMOS inverter Robustness
 2. Noise Margin, NMH and NML
 
-What is Noise Margin?
-In this lecture we study about Noise Margin.
-Noise Margin tells us how much noise a digital circuit can tolerate before it starts giving wrong output.
++ What is Noise Margin?
+  Noise margin tell about glitchs,cross talk noise in lower node can be identiied before it happens by using NOISE margin.
+
 In real chips there is always some noise present on the wires due to coupling,power supply variation,crosstalk etc.So the inverter must be robust enough to handle this noise.
 Noise Margin is a measure of this robustness of the CMOS inverter.
 
