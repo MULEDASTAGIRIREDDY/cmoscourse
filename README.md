@@ -1552,9 +1552,9 @@ the above shows about a clock cell where input waveform is equal to output wavef
 
 
 
-<head> DAY4 </head>
+
 # DAY 4.1
-# Introduction to NOisse margin.
+# Introduction to Noise margin.
 Static behavior Evaluation : CMOS inverter Robustness
 2. Noise Margin, NMH and NML
 
@@ -1566,7 +1566,6 @@ Noise Margin is a measure of this robustness of the CMOS inverter.
 
 Input and Output of an Inverter
 
-<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/60fb4d3a-0148-4174-8168-7c3e2b5c4266" />
 <img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/60fb4d3a-0148-4174-8168-7c3e2b5c4266" />
 
 
@@ -1583,20 +1582,21 @@ I/O Characteristic of Inverter
 From above picture we can observe the Ideal I/O Characteristic of a Inverter.
 x-axis is Vin and y-axis is Vout.
 In ideal case:
-•When Vin is between 0 and Vdd/2: output is Vdd(logic 1)
-•When Vin is between Vdd/2 and Vdd: output is 0(logic 0)
-The transition happens exactly at Vdd/2 and it is perfectly vertical(infinite slope).
-This is the IDEAL case which does not happen in real circuits.
++ When Vin is between 0 and Vdd/2: output is Vdd(logic 1)
++ When Vin is between Vdd/2 and Vdd: output is 0(logic 0)
+The transition happens exactly at Vdd/2 and it is perfectly vertical.
++ When we increase Vin,at Vdd/2 output voltge Vdd becomes "0".
++ This states that switching happens at Vdd/2.
++ It is behaviour of inverter.When Vin changes from 0 to 1,functioning of NMOS and PMOS changes.
 
-
+ 
 Ideal I/O Characteristic with Infinite Slope
 
 <img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/7cefcba8-14a2-4276-8663-83092277384d" />
 
 From above picture we can observe the Ideal I/O Characteristic with Infinite Slope marked.
-Here the transition from Vdd to 0 happens exactly at Vdd/2 with infinite slope.
-Infinite slope means the transition is instantaneous - output switches from Vdd to 0 at exactly one point on the input.
-This is a perfect step function.In real CMOS inverter this does not happen.The transition takes place over a range of Vin and the slope is finite.
+Here the transition from Vdd to 0 happens exactly at Vdd/2 with infinite slope where slope is (Change in output voltage/change in input voltage).
++ Infinite slope means the transition is instantaneous - output switches from Vdd to 0 at exactly one point on the input which happens only in ideal condition.
 
 
 Actual I/O Characteristic with Finite Slope
@@ -1605,46 +1605,40 @@ Actual I/O Characteristic with Finite Slope
 
 From above picture we can observe both ideal(left) and actual(right) I/O characteristics side by side.
 In actual I/O characteristic(right graph):
-•When Vin is low: Vout stays at Vdd(output is HIGH)
-•As Vin increases: Vout starts decreasing.This transition region has a finite slope not infinite slope.
-•When Vin is high: Vout stays at 0(output is LOW)
-The transition is not a perfect vertical line.It is a slanted line with finite slope.This is the ACTUAL behaviour of a real CMOS inverter.
++ When Vin is low: Vout stays at Vdd(output is HIGH)
++ As Vin increases: Vout starts decreasing.This transition region has a finite slope not infinite slope.This happens due to presense of finite resistance,capacitance in actual circuit.
++ When Vin is high: Vout reaches near to "0" but not exactly "0".
++ The transition is not a perfect vertical line.It is a slanted line with finite slope.This is the ACTUAL behaviour of a real CMOS inverter.
++ The finite slope region is the transition zone where the output is switching from HIGH to LOW.
++ Here we took resistance and capacitance are linear so we got linear shit with a constant slope from high to low.
 
-<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/f60392e6-dc31-428c-92ba-006bb1759154" />
-
-From above picture we can observe the finite slope region is now clearly marked on the actual characteristic.
-The finite slope region is the transition zone where the output is switching from HIGH to LOW.
+  
 WHY does finite slope matter?
 Because the finite slope transition region creates ambiguity.If Vin is in the transition zone the output is neither clearly 0 nor clearly 1.This is the region where noise can cause wrong output.So we need to define clear boundaries for what is logic 0 and logic 1 for both input and output.These boundaries are VIL,VIH,VOL,VOH.
 
 VIL - Input Low Voltage
 
 <img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/dc5a0e95-feac-4a0e-9aeb-b072fcf361ef" />
-<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/dc5a0e95-feac-4a0e-9aeb-b072fcf361ef" />
 
 
 From above picture we can observe VIL marked on the actual I/O characteristic.
 VIL is Input Low Voltage
-Any input voltage level between 0 and VIL will be treated as logic 0.
-VIL is the maximum input voltage that is still recognised as logic 0.
-Below VIL the output is still safely HIGH(close to Vdd).
-VIL is defined as the point on the VTC where slope = -1(dVout/dVin = -1).This is the start of the transition region.
+Any input voltage level between 0 and VIL,output is Vdd or high or Voh.
+Voh is output high voltage.
 
-VIH - Input High Voltage
+
 VIH is Input High Voltage.
-Any input voltage level between VIH and Vdd will be treated as logic 1.
-VIH is the minimum input voltage that is recognised as logic 1.
-Above VIH the output is safely LOW(close to 0).
-VIH is also defined as the point on the VTC where slope = -1.This is the end of the transition region.
-So VIL and VIH are both points where dVout/dVin = -1 on the actual VTC.The region between VIL and VIH is the forbidden zone or transition zone.
+Any input voltage level which lies above VIH considered as low or Vol.
+Vol is output lowvoltage.
 
-VOH - Output High Voltage
 
-<img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/48955318-49e4-4444-9a0a-aba733fbe3d9" />
+
 <img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/48955318-49e4-4444-9a0a-aba733fbe3d9" />
 
 From above picture we can observe VOH marked on the actual I/O characteristic.
-VOH is Output High Voltage
+VOH is Output High Voltage.
+
+
 Any output voltage level between VOH and Vdd will be treated as logic 1.
 VOH is the minimum output voltage that is recognised as logic 1.
 When Vin < VIL: output must be >= VOH.So VOH corresponds to the output when input is in the LOW region.
