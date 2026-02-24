@@ -346,9 +346,8 @@ For same W/L ratio but with lower channel length has Low peak current than devic
 
    # Introduction — Why the Switch Model?
 
-   Before we study SPICE simulations or I-V curves in detail, we need to understand the basic switching behaviour of the CMOS inverter. The MOSFET switch model is a simplified but very powerful way to understand how digital logic works without solving complex equations.
+   Till now we learnt about gate voltage,threshold voltage,drain current from device point of view.Now we wil do for mosfet switch view.. The MOSFET switch model is a simplified but very powerful way to understand how digital logic works without solving complex equations.
 
-The switch model says: a MOSFET is either fully ON (closed switch with finite resistance) or fully OFF (open switch with infinite resistance). This depends only on whether |Vgs| is above or below the threshold voltage |Vt|.
 
 1. The MOS Transistor Symbol
 
@@ -361,44 +360,54 @@ The MOS transistor has 3 terminals:
 •Drain (D) — carriers exit the channel here.
 
 The controlling parameter is |Vgs| — the magnitude of gate-source voltage. This is compared against the threshold voltage |Vt| to decide the state of the transistor.
+  Here we used modulus to generalise that the equations are acceptable for both NMOS and PMOS beacaus these are comlementary in nature.
 
 2. Transistor as a Switch
 
-   <img width="700" height="375" alt="image" src="https://github.com/user-attachments/assets/9d95ba9a-32e7-496b-adb1-d7119ea425e1" />
-
+<img width="688" height="338" alt="image" src="https://github.com/user-attachments/assets/7f3e04ea-3b46-4ba4-94f4-71d238e5f644" />
 Figure 2 – MOS symbol (left) and switch equivalent (right). Transistor → Switch with infinite OFF resistance and finite ON resistance.
 
 
-Transistor → Switch
-•With infinite OFF resistance when |Vgs| < |Vt|
-•With finite ON resistance when |Vgs| > |Vt|
++ Transistor  as a Switch
+   + With infinite OFF resistance when |Vgs| < |Vt|
+   + With finite ON resistance when |Vgs| > |Vt|
+     
+<b>conditions</b>
 
-OFF State — |Vgs| < |Vt|
-No channel forms between S and D. The transistor is in the cutoff region. Resistance between S and D is effectively infinite. The switch is OPEN. No current flows regardless of Vds.
++ <b> OFF State — |Vgs| < |Vt| </b>
+  As no channel forms between S and D. The transistor is in the cutoff region. Resistance between S and D is effectively infinite. The switch is OPEN. No current flows regardless of Vds.
 
-ON State — |Vgs| > |Vt|
-A conducting channel forms. The transistor is ON. Finite resistance exists between S and D. The switch is CLOSED with a series resistor. This resistance is called the ON resistance.
++ <b> ON State — |Vgs| > |Vt| </b>
+ A conducting channel forms. The transistor is ON. Finite resistance exists between S and D. The switch is CLOSED with a series resistor. This resistance is called the ON resistance.
 
 WHY is this useful?
-In digital circuits we only care about two output states — HIGH (near Vdd) or LOW (near 0). The switch model captures this without needing the full I-V curves. It is much faster for understanding logic behaviour and delay intuitively.
+In digital circuits we only care about two output states.They are:
+1. HIGH (near Vdd) 
+2. LOW (near 0).
+3. The switch model captures this without needing the full I-V curves. It is much faster for understanding logic behaviour and delay intuitively.
 
-
-3. The CMOS Inverter Circuit
++ The CMOS Inverter Circuit
+    This is known as complemetary circuit as both PMOS and NMOS ollow complementary logic.
 
    <img width="700" height="438" alt="image" src="https://github.com/user-attachments/assets/60f1b250-9f70-4258-8a2f-444743a20b77" />
-   Figure 3 – CMOS inverter schematic: PMOS source at Vdd, NMOS source at Vss, both gates driven by Vin, Vout at common drain node (~2:00)
+   Figure 3 – CMOS inverter schematic: PMOS source at Vdd, NMOS source at Vss, both gates driven by Vin, Vout at common drain node
+  
 The CMOS inverter has exactly 2 transistors:
-•PMOS — source tied to Vdd, gate at Vin, drain at Vout
-•NMOS — source tied to Vss (ground), gate at Vin, drain at Vout
-•Load capacitor CL at output — models the input capacitance of the next gate
+•PMOS — source tied to Vdd, gate at Vin, drain at Vout(TOP)
+•NMOS — source tied to Vss (ground), gate at Vin, drain at Vout(BOTTOM)
+•Load capacitor CL at output — models the input capacitance of the next gate that can be connected to long wire or short wire.It could be anything.
 
 Both gates are driven by the same Vin. The output Vout is taken at the common drain node between the two transistors.
 
+Vgs depends on Vss and Vdd as shown below.This decides functioning.
+
 WHY is PMOS source at Vdd?
-Because VgsP = Vin - Vdd. For PMOS to turn ON, VgsP must be sufficiently negative, i.e., Vin must be significantly below Vdd. Tying the PMOS source to Vdd ensures this condition is checked correctly.
+Because VgsP= Vin - Vdd. For PMOS to turn ON, Vgs must be sufficiently negative, i.e., Vin must be significantly below Vdd. Tying the PMOS source to Vdd ensures this condition is checked correctly.
 
 WHY is NMOS source at Vss?
 Because VgsN = Vin - Vss = Vin. For NMOS to turn ON, VgsN must exceed Vtn. Tying the source to ground means VgsN = Vin directly, so the NMOS turns ON when Vin exceeds Vtn.
+
+
 
 4. Case 1 — Vin is HIGH (Vin = Vdd)
  <img width="700" height="438" alt="image" src="https://github.com/user-attachments/assets/06f4593d-6c50-4fe3-8c0c-45d4740e73f6" />
@@ -408,14 +417,15 @@ For PMOS:   VgsP = Vin - Vdd = Vdd - Vdd = 0 V
 Since |VgsP| = 0 < |Vtp|  →  PMOS is OFF (open switch)
 
 For NMOS:   VgsN = Vin - Vss = Vdd - 0 = Vdd = 2 V
-Since VgsN = 2 V > Vtn  →  NMOS is ON (closed switch with resistance Rn)
+Since VgsN  > Vtn  →  NMOS is ON (closed switch with resistance Rn)
 
 <img width="700" height="475" alt="image" src="https://github.com/user-attachments/assets/1c5cb835-cdad-4481-9c0b-a3ecb04b9c79" />
 Figure 5 – PMOS turns OFF (open switch, left) and NMOS turns ON (closed switch with Rn, right) when Vin = Vdd 
 
-Equivalent Circuit for Vin = Vdd
-<img width="700" height="475" alt="image" src="https://github.com/user-attachments/assets/5d2bdf96-8a04-4caa-b501-b701fbac22c5" />
-Figure 6 – Equivalent circuit: PMOS is open switch, NMOS is resistor Rn to Vss. Vout discharges to 0 V 
+Equivalent Circuit for Vin = Vdd,with output load C1
+
+<img width="840" height="506" alt="image" src="https://github.com/user-attachments/assets/c075d2a1-2e30-4dff-a763-97f42153753a" />
+
 
 The equivalent circuit shows:
 •Vdd → open switch (PMOS OFF) → Vout   — no path from Vdd to output
@@ -427,35 +437,57 @@ Result:   Vin = Vdd (HIGH)  →  Vout = 0 V (LOW)
 
 This is the correct inverter behaviour — a HIGH input produces a LOW output.
 
-At this operating point, PMOS is off and NMOS is in the linear (triode) region — it behaves like a resistor Rn pulling the output to Vss.
+At this operating point, PMOS is off and NMOS is in the linear  region — it behaves like a resistor Rn pulling the output to Vss.
+
 
 5. Case 2 — Vin is LOW (Vin = Vss = 0 V)
+
+ we find equations and equivalent circuit for  Vin is high similarly we need to find it for  Vin=0 also.By combining those we will get complete circuit to eva;luate delay of cell/device.
+ 
+<img width="815" height="475" alt="image" src="https://github.com/user-attachments/assets/cb021ac0-3cff-400a-904c-9b84e49d19f8" />
+
+ let Vdd=5V, gate to source volatge 
+
+   
 By Observation:
-For PMOS:   VgsP = Vin - Vdd = 0 - Vdd = -Vdd = -2 V
-Since |VgsP| = 2 V > |Vtp|  →  PMOS is ON (closed switch with resistance Rp)
+let Vdd=5V
+For PMOS:   VgsP = Vin - Vdd = 0 - Vdd = -Vdd = -5 V
+It turn on the PMOS.Negative Vgs should be less than _Vts to turn ON and viceversa or NMOS.
 
 For NMOS:   VgsN = Vin - Vss = 0 - 0 = 0 V
 Since VgsN = 0 V < Vtn  →  NMOS is OFF (open switch)
 
+<img width="803" height="506" alt="image" src="https://github.com/user-attachments/assets/d4528075-d66b-4c4a-95ff-088040e37396" />
+
+
 Equivalent Circuit for Vin = Vss
 The equivalent circuit shows:
+To represent PMOS we se resistor as wires has some resistance and it is denoted by Rn.
++ It is non linear function of drain current.
++ NMOS is shown as open switch because Vin is zero,Vss is also 0,so there is no potential dierenc.
+
 •Vdd → Rp (PMOS ON) → Vout   — Vdd charges output through Rp
 •Vout → open switch (NMOS OFF) → Vss   — no path from output to ground
 
-In steady state, NMOS is off so no path to ground. PMOS pulls Vout up toward Vdd through Rp. CL charges up to Vdd.
+<img width="181" height="318" alt="image" src="https://github.com/user-attachments/assets/1f5abf4f-0db3-481e-954d-f15e8610fdd2" />
 
-Result:   Vin = 0 V (LOW)  →  Vout = Vdd (HIGH)
 
-Correct inverter behaviour — a LOW input produces a HIGH output.
++ When input voltage is Vin = Vdd,the eqvivalent circuit is shown in above figure.First ciruit is for PMOS is of and NMOS is ON.
+  
+<img width="181" height="289" alt="image" src="https://github.com/user-attachments/assets/7d5e4910-9a08-4b26-99dd-f724436e93ed" />
 
-At this operating point, NMOS is off and PMOS is in the linear (triode) region — it acts like a resistor Rp pulling the output to Vdd.
+when Vin=0,the equivalent circuit is shown above.
+
+The above circuits decides voltage characteristics.
+
+
 
 6. Summary — CMOS Inverter Switching Behaviour
 Truth table by switch model
 •Vin = Vdd (HIGH)  →  PMOS OFF, NMOS ON   →  Vout = 0 V (LOW)
 •Vin = Vss (LOW)   →  PMOS ON,  NMOS OFF  →  Vout = Vdd (HIGH)
 
-WHY CMOS has zero static power
+WHY CMOS has zero static power?
 In both steady-state cases, one transistor is always OFF. This means there is no direct current path from Vdd to Vss at any time in steady state. No DC current flows, so no static power is dissipated. This is the biggest advantage of CMOS over older logic families like NMOS-only or bipolar logic.
 
 ON Resistance and Delay
@@ -464,17 +496,8 @@ The ON resistance values Rn and Rp are not equal in general. They depend on:
 •Carrier mobility (electrons in NMOS are faster than holes in PMOS, so Rn < Rp for equal W/L)
 •Supply voltage Vdd
 
-The time to charge or discharge CL through these resistances determines the propagation delay of the inverter. This is the same delay that appears in the delay tables (CBUF1, CBUF2) discussed in earlier lectures. By tuning the W/L ratio we can control Rn and Rp, which in turn controls the delay.
 
-Summary — Key Points from This Lecture
-•MOSFET acts as a switch: OFF when |Vgs| < |Vt|, ON when |Vgs| > |Vt|.
-•PMOS source is at Vdd. NMOS source is at Vss. Both gates driven by Vin.
-•Vin = HIGH → VgsP = 0 (PMOS OFF), VgsN = Vdd (NMOS ON) → Vout = LOW.
-•Vin = LOW  → VgsP = -Vdd (PMOS ON), VgsN = 0 (NMOS OFF) → Vout = HIGH.
-•One transistor is always OFF in steady state → zero static power dissipation.
-•ON resistance Rn and Rp control how fast CL charges/discharges → this is the inverter delay.
-
->>>>>>>>>>>>>>>>>>>>>>>.<head>24</head> PMOS and NMOS Transistor Behaviour in an Inverter<<<<<<<<<<<<<
+# 
 
 Introduction – What are we studying in this lecture?
 In the previous lectures we understood the construction of NMOS, its threshold voltage, linear and saturation regions of operation, and also the concept of velocity saturation in short channel devices. Now in this lecture we move one step forward and look at the behaviour of PMOS and NMOS together inside an INVERTER circuit when the input voltage Vin switches between logic HIGH (= Vdd) and logic LOW (= 0V).
@@ -581,10 +604,16 @@ Once the voltage parameters are defined, the next important quantities are the d
 <img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/5bed3f23-2746-43f1-9b00-f92c90b2f779" />
 
 Fig 10: Current directions — IdsN flowing through NMOS (Vin = Vdd case) and IdsP flowing through PMOS (Vin = 0 case)
+
+when Vin=vdd
++ direct path exists between Vout and Vss,resulting Vout=0.
+
+  
 For the NMOS transistor when Vin = Vdd:
 •IdsN flows from Drain (connected to Vout) to Source (connected to Vss = 0V)
 •The load capacitor CL discharges through this current path, pulling Vout towards 0V
 •This discharging speed depends on how large IdsN is, which depends on VgsN and W/L ratio of NMOS
+
 For the PMOS transistor when Vin = 0V:
 •IdsP flows from Source (connected to Vdd) through PMOS to Drain (connected to Vout)
 •This charges the load capacitor CL, pulling Vout towards Vdd
@@ -592,23 +621,29 @@ For the PMOS transistor when Vin = 0V:
 This is an extremely important concept for delay analysis. The delay of any CMOS circuit depends on how quickly CL can be charged or discharged. The faster the current IdsP or IdsN, the smaller the delay. This is why W/L ratio tuning directly impacts delay — by increasing the W/L of either transistor, we increase its drain current and therefore reduce the delay for that transition.
 
 WHY is this understanding so important?
-The behaviour studied in this lecture forms the physical foundation for everything that follows in CMOS design. Let us understand why:
-Connection to VTC (Voltage Transfer Characteristic)
-The VTC curve — which shows Vout vs Vin — is nothing but a graphical representation of what we studied here. When Vin is LOW, Vout is HIGH (PMOS ON, NMOS OFF). When Vin is HIGH, Vout is LOW (PMOS OFF, NMOS ON). The transition between these two states in the middle region is where both transistors are partially ON, and that transition region determines noise margins, gain, and the shape of the VTC.
+The behaviour studied in this lecture forms the physical foundation for everything that follows in CMOS design. 
+
+Connection to Voltage Transfer Characteristic:
+The VTC curve — which shows Vout vs Vin  is  a graphical representation of what we studied here. 
++ When Vin is LOW, Vout is HIGH (PMOS ON, NMOS OFF).
++ When Vin is HIGH, Vout is LOW (PMOS OFF, NMOS ON).
++ The transition between these two states in the middle region is where both transistors are partially ON, and that transition region determines noise margins, gain, and the shape of the VTC.
+
+  <img width="868" height="344" alt="image" src="https://github.com/user-attachments/assets/f10a93a2-fd41-4b04-8973-2fc4085814fa" />
+
+The naming of components is taken as below:
++ VgsN for gate voltage of NMOS
++ VgsP for gat voltage of PMOS.
++ In eqvivalent circuit Vin=Vdd,current is denoted as IdsN
++ For Vin=0,current is denoted as IdsP
+
 
 Connection to DELAY
-From our earlier lectures we know that delay depends on how fast the output node charges or discharges. That charging/discharging is done entirely by IdsP (when output goes HIGH) and IdsN (when output goes LOW). So the delay of the inverter directly depends on the drain currents, which in turn depend on VgsP, VgsN, VdsP, VdsN, and the W/L ratios — all of which we labelled in this lecture.
-
-Connection to SPICE Simulations
-When we write a SPICE netlist and run a transient simulation of the inverter, SPICE is internally tracking VgsP, VgsN, VdsP, VdsN at every time step, calculating IdsP and IdsN using the model equations, and then solving for Vout at each time step. So the concepts studied in this lecture are literally what SPICE is computing in the background.
-
-Connection to Physical Design (Clock tree, Crosstalk, STA)
-In physical design flows, every timing analysis (STA), clock tree synthesis, and crosstalk analysis ultimately comes down to delay calculation, which comes down to drain currents, which come down to VgsP, VgsN, VdsP, VdsN. This is why understanding how PMOS and NMOS switch in an inverter is the absolute foundation of VLSI design.
+ As we know that delay depends on how fast the output node charges or discharges. That charging/discharging is done entirely by IdsP (when output goes HIGH) and IdsN (when output goes LOW). So the delay of the inverter directly depends on the drain currents, which in turn depend on VgsP, VgsN, VdsP, VdsN, and the W/L ratios — all of which we labelled in this lecture.
 
 
 
->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-<head>PMOS/NMOS drain current v/s drain voltage</head>
+<head> PMOS/NMOS drain current v/s drain voltage </head>
 
 <img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/6142ccec-2cb0-4fc9-a4ae-fbd6c15c7a14" />
 
@@ -619,6 +654,8 @@ In this lecture we will find how IdsN changes with VdsN and how IdsP changes wit
 
 By Observation
 From the inverter circuit we can directly find all the voltage expresions by observation.
+The flow current is in opposite direction in circuits with Vin =Vdd and Vin = 0.
+CMOS voltage characteristics comletely depends on Vin and Vout.
 
 For NMOS:
 Source of NMOS is connected to Vss = 0V.Gate of NMOS is connected to Vin.
@@ -652,6 +689,7 @@ VdsP is also always negative or zero because Vout is always less than or equal t
 <img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/fa055513-9064-474f-bef7-091d82e282ed" />
 
 By Observation:
+
 IdsP = -IdsN
 
 WHY IdsP = -IdsN?
@@ -660,9 +698,12 @@ The negative sign comes from sign convention diference between PMOS and NMOS.For
 So IdsP = -IdsN.This means we can derive PMOS curve from NMOS curve just by sign change.
 
 NMOS IdsN Vs VdsN Curve
+
 <img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/3ebde5af-b3e1-4a53-8606-f154f41432a0" />
-From above picture we can observe that the instructor is now plotting NMOS IdsN vs VdsN curve.
-From our previous lectures we know that NMOS has two operating regions:
+From above picture we can observe that the  plotting is of  NMOS IdsN vs VdsN curve.
+
+we know that NMOS has two operating regions:
+
 •Linear Region: When VdsN <= VgsN - Vtn.Here current increases linearly with VdsN.
 •Saturation Region: When VdsN > VgsN - Vtn.Here current becomes constant and does not depend on VdsN.
 
@@ -774,8 +815,6 @@ When we run SPICE transient simulation of inverter:
 •It uses those currents to calculate dVout/dt = IdsN/CL for discharge and IdsP/CL for charge.
 •Repeating for thousands of time steps gives complete Vout vs time waveform from which we measure delay.
 
-Connection to VTC(next lecture):
-In next lecture we will superimpose both families of curves on same plot.For each Vin value the NMOS curve(for that VgsN = Vin) and PMOS curve(for that VgsP = Vin - Vdd) are drawn together.Their intersection gives DC operating point.By tracing all such intersections as Vin varies from 0 to Vdd we get full Vout vs Vin curve which is the VTC.
 
 Summary
 Voltage Observations:
@@ -799,15 +838,22 @@ PMOS IdsP vs VdsP Curve:
 •More negative VgsP means higher |IdsP| means faster charging means smaller tpLH.
 •IdsP = 0 when VgsP > Vtp(PMOS in cutof,i.e Vin close to Vdd).
 
-In next lecture we will superimpose both curves on same plot and derive complete VTC of CMOS inverter.
 
-...............................................................................................................................................................................................
-# Lecture24
+........................................................................................................................................................................................
+# DAY 2.4
 
 1. CMOS Inverter – Circuit Setup
-<img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/9b0a0395-6a16-4382-ab62-9484e5105ad1" />
-Figure 1 – CMOS Inverter circuit with PMOS and NMOS I-V curve families (~0:53)
-Before we get into the graphical analysis, we need to understand what the CMOS inverter circuit actually looks like and how the terminal voltages relate to Vin and Vout. This is all just topology — no device equations needed yet.
+
+<img width="893" height="509" alt="image" src="https://github.com/user-attachments/assets/c31b3b5d-8ea3-4fc2-8954-0da9f736bf15" />
+
+
+Figure 1 – CMOS Inverter circuit with PMOS and NMOS I-V curve families
+Before we get into the graphical analysis, 
+we need to understand that the CMOS inverter circuit looks like.
+we can understand realtion between terminal voltages Vin and Vout.
+
+To get Voltage charcteristics which helps to find delay beacause these are function o Vin and Vot not Vss and Vdd.we have to gt rid of Vss and Vdd and convert it into required forms i.e Vin and Vout by taking IdsN current.We ind way to modiy into Vin and Vout as in real design we did not see Vss  and Vdd as these are inrternal voltages.we  will do this for static CMOS inverter.
+
 
 Construction of the CMOS Inverter
 The inverter has exactly 2 transistors:
@@ -911,7 +957,7 @@ These load lines are analogous to the resistive load lines used in BJT amplifier
 5. Finding Operating Points and Building the VTC
 6. <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/fbf4e86f-3cd7-4ac2-8127-84711d5c1018" />
 
-Figure 5 – NMOS curves and PMOS load lines overlaid; intersection points are operating points (~4:00)
+Figure 5 – NMOS curves and PMOS load lines overlaid; intersection points are operating points 
 For each value of Vin, there is exactly one intersection between the corresponding NMOS curve and PMOS load line. This is guaranteed because NMOS current increases with Vout (for fixed Vin) while PMOS load line decreases with Vout — two monotone curves in opposite directions must cross exactly once.
 
 Reading the 5 Operating Points
