@@ -2075,26 +2075,29 @@ In Digital Design we always assume inverter is symmetric and VTC is ideal.But in
 
 ............................................................................
 
-#LECTURE 41
+# 5.1
 
 What is this lecture about?
 In previous lectures we changed PMOS width and saw how VTC and noise margin changes.
 Now in this lecture we want to see what happens when Vdd changes.What if someone gives 2.5V chip only 1V supply?Will it still work?
 So the question is - how does VTC change when Vdd is scaled down from 2.5V to 1V?
-To answer this we run multiple SPICE simulations - one for each Vdd value.But doing this manually for every Vdd is boring and slow.So in this lecture we learn a SMART way to run all simulations automatically using a loop inside the SPICE netlist itself.
+To answer this we run multiple SPICE simulations - one for each Vdd value.But doing this manually for every Vdd is boring low.So in this lecture we learn a SMART way to run all simulations automatically using a loop inside the SPICE netlist itself.
 
 Circuit Setup
+
+
 <img width="700" height="310" alt="image" src="https://github.com/user-attachments/assets/c1276d21-f1bd-4057-9228-5b31efe57157" />
 
 
 From above picture we can observe the inverter circuit used for this experiment.
+Her we took bigger PMOS compared to NMOS to mach resistances.
 Circuit parameters are:
 •Vdd = 2.5V (starting value, will be scaled down)
 •Wp = 0.9375u (PMOS width)
 •Wn = 0.375u (NMOS width)
 Note: Wp is 2.5x Wn.This is the balanced sizing we learned in previous lecture to get Vm near Vdd/2.
 
-The Experiment - What are we doing?
+The Experiment
 
 <img width="700" height="310" alt="image" src="https://github.com/user-attachments/assets/f84a790b-f8cb-462f-b05d-276467127fef" />
 
@@ -2109,7 +2112,7 @@ We want to run VTC simulation 5 times:
 
 Each run gives one VTC curve.At the end we get 5 curves on the same plot.We can see how VTC shape changes as Vdd goes down.
 
-We could write 5 separate netlist files.But that is silly and slow.Instead we write ONE netlist with a loop that does all 5 runs automatically.This is the "smart" part.
+We could write 5 separate netlist files.Instead we write ONE netlist with a loop that does all 5 runs automatically.This is the "smart" part.
 
 Reference VTC at Vdd = 2.5V
 
@@ -2155,7 +2158,9 @@ The loop works like this:
 let powerSupply = 2.5
 alter Vdd = powerSupply
 
-    let voltageSupplyVariation = 0
+
+
+   let voltageSupplyVariation = 0
     dowhile voltageSupplyVariation < 5
         dc Vin 0 2.5 0.01
         let powerSupply = powerSupply - 0.5
@@ -2163,10 +2168,12 @@ alter Vdd = powerSupply
         let voltageSupplyVariation = voltageSupplyVariation + 1
     end
 
-    plot dc1.out vs in dc2.out vs in dc3.out vs in dc4.out vs in dc5.out vs in
+   plot dc1.out vs in dc2.out vs in dc3.out vs in dc4.out vs in dc5.out vs in
     xlabel "input voltage [V]" ylabel "output voltage [V]"
     title "Inverter dc characteristics as a function of supply voltage"
 .endc
+
+
 
 Let us understand each part of the loop step by step:
 
@@ -2221,7 +2228,7 @@ alter Vdd = powerSupply is a powerful command.It lets you change a component val
 
 ......................................................................
 
-# LECTURE42
+# 5.2  
 
  what happens when we scale Vdd down? Like really bring it down, all the way to 0.5 V.
 
@@ -2234,14 +2241,11 @@ This is called Power Supply Scaling. We run 5 separate SPICE DC simulations:
 •dc5  →  Vdd = 0.5 V
 
 All 5 VTCs are plotted on the same graph. Then we check gain and energy at each Vdd.
-Spoiler: lower Vdd gives you better gain AND way less energy. But it also makes the inverter horribly slow.
 
 1.  The 5-VTC Overlay — What It Looks Like
 
-2.  <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/bc834466-2fbe-4709-8cf7-816e362e97e3" />
-
-ach VTC is a different curve on the same axes.
-
+ <img width="738" height="329" alt="image" src="https://github.com/user-attachments/assets/bc834466-2fbe-4709-8cf7-816e362e97e3" />
+\
 By Observation:
 •As Vdd goes down, the whole VTC shifts left and compresses.
 •The switching threshold Vm (middle of the transition) also scales down with Vdd.
@@ -2266,7 +2270,7 @@ Improvement:  11.53 / 7.38 ≈ 1.56  →  56% increase in gain
 WHY does gain increase when Vdd drops?
 Think about what gain means physically.
 
-•The transistor threshold voltages Vtn and Vtp do NOT scale — they are fixed by the sky130 process.
+•The transistor threshold voltages Vtn and Vtp are assumed and f.ixed
 •But the supply voltage is smaller, so the output swing is smaller too.
 •The VTC still has to switch from Vout = Vdd to Vout = 0 in roughly the same Vin window near Vth.
 •But now Vdd is much smaller, so the transition is compressed into a shorter vertical drop.
@@ -2494,7 +2498,7 @@ WHY does neighbourhood matter for etching?
 
    The drain current equation for a MOSFET in triode (linear) region:
 
-Id  =  u Cox (W/L) [(Vgs − Vt)Vds − Vds²/2]
+ Id  =  u Cox (W/L) [(Vgs − Vt)Vds − Vds²/2]
 
 Let's look at what each term means:
 
@@ -2518,127 +2522,158 @@ WHY is W/L so critical?
 •This directly shifts the VTC, changes the switching threshold Vm, and changes noise margins.
 •In a chain of 1000 gates, each gate has a slightly different Id. Delays accumulate. Timing failures happen.
 
-PART 2 — Sources of Variation: Oxide Thickness
-Second source of variation. This one is different — it doesn't change the shape of the transistor.
-It changes the gate oxide layer — the extremely thin insulating layer between the Poly gate and the silicon channel.
 
-Quick Recap — What is the Gate Oxide?
-•The gate oxide is a layer of SiO2 (silicon dioxide) grown on the silicon surface.
-•It sits between the Poly gate (top) and the silicon channel (bottom).
-•It is the insulator that makes a MOSFET a voltage-controlled device.
-•Thickness = t_ox. In modern nodes, t_ox is only a few atoms thick (1–3 nm in sky130 it's ~4nm).
-
-6.  How Oxide Thickness Affects the Transistor
-The gate oxide thickness t_ox appears in Cox:
-
-Cox  =  epsilon_ox / t_ox
-
-•epsilon_ox:  permittivity of SiO2. This is a material constant — it doesn't change.
-•t_ox:  oxide thickness. This DOES vary slightly during fabrication.
-
-And Cox feeds directly into the drain current:
-
-Id  =  u Cox (W/L) [(Vgs − Vt)Vds − Vds²/2]
-
-By Observation:
-•If t_ox increases slightly (thicker oxide) → Cox decreases → Id decreases → transistor is weaker.
-•If t_ox decreases slightly (thinner oxide) → Cox increases → Id increases → transistor is stronger.
-•Oxide thickness variation causes the same kind of Id scatter as etch variation — just through a different path.
-
-WHY does oxide thickness vary?
-•Oxide is grown by exposing silicon to steam or dry oxygen at high temperature (thermal oxidation).
-•The growth rate depends on temperature, gas flow, and silicon surface quality.
-•Temperature across the furnace tube is not perfectly uniform — hotter spots grow thicker oxide.
-•The same wafer can have slightly different t_ox at the centre vs the edge.
-•Wafer to wafer variation also exists depending on load and gas flow in the furnace.
-
-7.  Oxide Thickness Also Shifts the Threshold Voltage Vt
-There's a second effect that makes oxide variation even more damaging.
-t_ox also affects the threshold voltage Vt — not just Cox.
-
-Vt  =  Vt0  +  gamma (sqrt(|2*phi_F + Vsb|) − sqrt(|2*phi_F|))
-
-Even without the body effect, Vt0 itself depends on flat-band voltage and depletion charge:
-
-Vt0  =  Vfb  +  2*phi_F  +  Qd / Cox
-
-•Qd:  depletion charge. Fixed by doping.
-•Cox:  gate oxide capacitance. Depends on t_ox.
-
-So if t_ox changes:
-•Cox changes → the Qd/Cox term changes → Vt0 shifts.
-•Thicker oxide → lower Cox → larger Qd/Cox → higher Vt → transistor turns on later → Id drops even more.
-•Thinner oxide → higher Cox → smaller Qd/Cox → lower Vt → transistor turns on earlier → Id increases.
-
-WHY is this double-hit so dangerous?
-Etch variation changes W/L → affects Id through one path.
-Oxide variation changes Cox AND Vt → affects Id through TWO paths simultaneously.
-
-•Transistors across the chip all have slightly different Id values.
-•The VTC of each gate shifts slightly.
-•Switching thresholds Vm, noise margins NMH and NML — all vary from gate to gate.
-•This is why designers add margin. You can't count on a perfect VTC.
-
-8.  How These Variations Combine
-In a real chip, both types of variation happen at the same time.
-
-•Etching variation:  changes L and W → changes W/L → changes Id.
-•Oxide thickness variation:  changes t_ox → changes Cox and Vt → changes Id (doubly).
-
-The total variation in Id from all sources can be significant — easily ±10–20% in older nodes, even more in advanced nodes.
-
-This is why fabrication engineers spend enormous effort:
-•Controlling etch uniformity across wafer → tighter L distribution
-•Controlling oxidation temperature uniformity → tighter t_ox distribution
-•Using optical proximity correction (OPC) → pre-distorting the mask so the etched result comes out right
-•Using dummy poly fills → creating symmetric environments for all gates, not just middle ones
-
-9.  Summary — Why Variation Matters for CMOS Inverter Robustness
-All of this connects back to what we started studying — CMOS inverter robustness.
-
-•The CMOS inverter only works well if its VTC has the right shape.
-•Noise margins NMH and NML depend on VOH, VOL, VIH, VIL — all of which shift when Id changes.
-•If Id varies because L varies (etch) or t_ox varies (oxide), the VTC moves.
-•In the worst case, noise margins shrink to zero — the inverter fails to correctly reject noise.
-
-That's the real danger of device variation. It doesn't just slow chips down — it can make them wrong.
-
-Key Equations to Remember:
-Id  =  u Cox (W/L) [(Vgs − Vt)Vds − Vds²/2]
-Cox  =  epsilon_ox / t_ox
-Vt0  =  Vfb  +  2*phi_F  +  Qd / Cox
-
-Etch variation → L shifts → W/L changes → Id changes.
-Oxide variation → t_ox shifts → Cox changes AND Vt changes → Id changes twice over.
 
 
 ........................................................................
 
-# lecture 45
+# lecture 45  SOURCE OF VARIATION : OXIDE ETHICKNESS
 
-1. Single Inverter
-Before we go into sources of variation we need to understand the basic circuit we are working with which is the Single Inverter.This is the most fundamental gate in CMOS circuit design and it is built using one PMOS and one NMOS transistor connected together.
+In thi svideo we are going to stu=dy about second sorce o variation which is Oxid Thickness.
 
-<img width="525" height="388" alt="image" src="https://github.com/user-attachments/assets/f6c5d6bb-2176-4642-9f87-69a8c91bef40" />
+Here we are using single inverter by expanding it further we get NMOS,PMOS and then crosectional view o Transistor.
 
-From above picture we can observe the basic symbol of single inverter.It takes In as input and gives Out as inverted output.The Vdd is connected at top which is supply voltage and Vss is connected at bottom which is ground.The circle at the output of the triangle symbol indicates inversion.
+<img width="827" height="316" alt="image" src="https://github.com/user-attachments/assets/17239163-2d5f-4b02-a282-0655986cc8d6" />
 
-Now when we expand this inverter symbol into its transistor level schematic we can see whats happening inside.
+ In crosectional view of transistor we can observe :
+ + Gate Oxide.
+   we rae seeing about oxid ethickess of gate.
 
-<img width="688" height="400" alt="image" src="https://github.com/user-attachments/assets/7e0d296c-b009-4a82-b540-998ae10766d8" />
+   <img width="842" height="399" alt="image" src="https://github.com/user-attachments/assets/4728913f-2e80-46bf-9d12-63938d4f7a61" />
 
-From above image we can observe:
-The Poly Gate(red) is the common gate for both PMOS and NMOS.It is connected to the In signal.This gate decides which transistor is ON and which is OFF.
-The PMOS transistor is at the top connected to Vdd with P Diff(green) as its difusion region.When input is LOW the PMOS turns ON and pulls output to Vdd which gives HIGH output.
-The NMOS transistor is at the bottom connected to Vss with N Diff(yellow-green) as its difusion region.When input is HIGH the NMOS turns ON and pulls output to Vss which gives LOW output.
-The output is taken from the node connecting Drain of PMOS and Drain of NMOS together.
 
-So the inverter works by complementary action of PMOS and NMOS.When one is ON other is OFF.This is why CMOS(Complementary MOS) consumes very low static power because at no point both transistors are ON at same time in ideal case.
+  Above image shows chain of inverters and among them we will take crosectional view of 1 transistor.
 
-1.1 Internal Structure of NMOS in Inverter
-Now if we zoom in further into the NMOS transistor which is circled in the schematic we can see the actual physical device structure.This helps us understand where the oxide thickness tox comes in.
+   <img width="536" height="319" alt="image" src="https://github.com/user-attachments/assets/9cc46417-8c3a-4404-9b5a-1ac0f4ee4360" />
 
-<img width="713" height="400" alt="image" src="https://github.com/user-attachments/assets/976e29d2-353e-4e3d-a618-6d16b47a9aa3" />
+   we can observe:
+   + Poly silicon gate
+   + Difusion region
+   + Source
+   + Drain
+   + Gate oxide.
+
+<img width="572" height="68" alt="image" src="https://github.com/user-attachments/assets/2e3ce5ed-c19f-459e-a943-8ec272b4e401" />
+
+For ideal oxidation layer,thickness should be same throuhout but as proccess in fabrication are not ideal we can observe uneven thickness of oxide layer.
+
+<img width="825" height="178" alt="image" src="https://github.com/user-attachments/assets/1ecd55c8-3e33-4dcd-a392-51820dfaa217" />
+
+ In above igure we can observe a pool of inverters which contains so many transistors.In these transistors Oxide thickness  of every transistor is not sam eand it is uneven.
+ + Mainly transistors which are at edges have more uneven oxide layer as these are exposed to other structures.
+
+   <img width="586" height="116" alt="image" src="https://github.com/user-attachments/assets/3a298131-6622-4e8a-a97e-a3167a576e54" />
+
+    Above picture shows about how Current density depends on Cox which inturn depends on thickness of oxide layer.
+
+
+
+
+# Lecture 46 5.2.3
+
+<img width="837" height="393" alt="image" src="https://github.com/user-attachments/assets/74be5148-38a9-400c-9b79-72b56d82568c" />
+
+ From this lecture we will know how does change in Drain current effects CMOS structure.
+ + The orange arrow mark shows dependency of drift current on gate oxide thickness.
+
+    Here we prove the robstenss of CMOS inverter by doing Extreme Spice simulations.
+
+   <img width="324" height="186" alt="image" src="https://github.com/user-attachments/assets/69ba8768-2e10-444a-bf9a-45e34f973197" />
+
+   For explaining robustenss of CMOS,we start doing simulations for diffrent widths o PMOS and NMOS devices:
+   Starting with Strong PMOS + Weak NMOS.
+   + Strong PMOS : It is least resistant PMOS.It is widest possible PMOS.
+   + Weak NMOS : NMOS which has highest resitance possible.
+  
+     From the image we can say that 1.875u is the maximum possible width of PMOS.
+     0.375 is the minimum possible width of NMOS.
+     
+<img width="295" height="176" alt="image" src="https://github.com/user-attachments/assets/72804c19-da29-492e-bef6-d64c66e34ee1" />
+
+   Ending with a device having Weak PMOS + Strong NMOS
+     + Weak PMOS:  Maximum possible width of NMOS.(highest resistance)
+     + Strong NMOS:Minimum possible width of PMOS.(weak resistance)
+
+we have sweep values from 0.37u to 1.875u for NMOS and vice versa for PMOS.
+
+<img width="848" height="401" alt="image" src="https://github.com/user-attachments/assets/85082abc-789c-47d9-9d9b-59004f1ec4a1" />
+
+ For every step we will observe the DC characteristics.We will study at extreme cases.
+
+   # smart spice simulations(pending)
+
+
+
+
+
+
+
+
+
+
+# 5.2.4
+
+
+we are robustenss of CMOS by varing components from Strong PMOS + Weak NMOS to Weak NMOS + Strong PMOS.we are sweeping many values bewteen these parameters.
+
+  <img width="690" height="434" alt="image" src="https://github.com/user-attachments/assets/ccf4ec8a-b107-4233-a3b1-f352ce949e98" />
+
+X axis : input voltage [V] ranging from 0.0 to 2.5V
+
+Y axis : output voltage [V] ranging from 0.0 to 2.5V
+
+From the graph we can observe that all 5 curves have same shape. They all start at Vout = 2.5V when Vin is low and they all drop to Vout = 0V when Vin is high. This is the expected VTC behavior of CMOS inverter -- it is still working as an inverter for all 5 device corners. But the important observation is that each curve is shifted left or right with respect to each other along the Vin axis. This horizontal shift in the curves is what device variation causes. Some corners cause the inverter to switch earlier (at lower Vin) and some corners cause it to switch later (at higher Vin).
+
+Diagonal line Vout = Vin
+
+A diagonal line (Vout = Vin) is drawn on the same graph. This line is important because wherever any VTC curve intersects this diagonal line, that intersection point gives the switching threshold Vm of that particular device corner.
+
+Since all 5 curves cross the diagonal at diferent points along the Vin axis, we can clearly see that Vm is not same for all device corners -- it varies from corner to corner. This variation in Vm is the first and most important efect of device variation on CMOS inverter.
+
+In this case we are studying:
++ Noise Margin
++ Switching Threshod
+
+  Switching Threshold
+
+  <img width="690" height="434" alt="image" src="https://github.com/user-attachments/assets/ccf4ec8a-b107-4233-a3b1-f352ce949e98" />
+
+
++ From above graph we can observe that shift in Vm is less even though we are varying width from its minimum possiblw width to maximum possible width for both NMOS and PMOS.
++ Even though there are some system variations in device during manuacturing the shift in Vm is small by which operation of CMOS is intact.
++ This explains about robustness of CMOS.
+
+
+
+Now we will discuss about variation in Noise margin high and Noise margin low.
+
+  
+<img width="668" height="370" alt="image" src="https://github.com/user-attachments/assets/a02b2a7f-cc9b-4564-b0e0-ffb73d564e2b" />
+
+
+From graph we can observe that:
++ Noise margin high is in range from 2.1 to 2.5.
+  NMh is 0.4V which is larhe enough to gulp high variation
++ Nois emargin low is in range from 0 to 0.3V which is 0.3V which is easy to ilter out noises.
+
++ when we vary between extreme conditions these Noise margins might not be enough but for maximum cases it's working is intact.
+
+So due to robustness of CMOS it is used for making dierent devices from basic to complex networks like all gates such as AND,OR,NAND,NOR etc in digital circits.
+
+
+# Lecture 5.2.5
+
+
+
+
+
+
+   
+
+
+
+
+
 
 
 
