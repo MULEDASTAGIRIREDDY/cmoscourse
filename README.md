@@ -1,4 +1,4 @@
- # CMOS-Circuit-Design-Spice-Simulation-using-Sky130nm-technology 
+<img width="366" height="325" alt="image" src="https://github.com/user-attachments/assets/15bd897b-5ea5-442c-a93c-fcf64fd7d821" /> # CMOS-Circuit-Design-Spice-Simulation-using-Sky130nm-technology 
 #  cmoscourse
 # lecture1 why do we need spice simulations?
    Before we study about SPICE simulations we need to know diference between the spice simulations and circuit design.
@@ -441,14 +441,34 @@ For same W/L ratio but with lower channel length has Low peak current than devic
 
    # L5 Labs Sky130 Id-Vgs
 
-   ![WhatsApp Image 2026-02-26 at 16 36 56](https://github.com/user-attachments/assets/cba19d51-138b-4032-a57b-d6393a3c48cf)
+Simulation for Lower nodes:
++ simulation has been done for W=0.39u and L=0.15u
+  
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/33e8bd6c-70f0-4128-abef-430a84027a27" />
 
-   ![WhatsApp Image 2026-02-26 at 16 39 58](https://github.com/user-attachments/assets/cb2e9b45-19ce-44b4-bcff-d287b4b0d5a0)
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/24815efd-edab-4afd-9917-690a7dc1d65e" />
+
+<img width="362" height="322" alt="image" src="https://github.com/user-attachments/assets/d9a0906d-84e1-423b-ba1e-7fb11db9665a" />
+
+
+From the above plot of Id vs Vds for different values of Vgs, we can observe that for lower values of Vgs the curve shows quadratic behaviour whereas for higher values of Vgs it shows linear behaviour. Now to find the peak current at Vgs=1.8V, simply left click on the curve at Vgs=1.8V.
 
 
 
 
-   
+
+ we will plot for Id vs Vgs
+
+ <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/45055dac-3c72-4e34-8a79-e79735a00c88" />
+
+we are taking values for L=0.15u and W=0.39u, Keeping Vds constant at 1.8V and sweeping Vgs from 0 to 1.8V with step of 0.1V.
+
+
+<img width="366" height="325" alt="image" src="https://github.com/user-attachments/assets/fa21cc4d-b413-4ff1-b2df-5eb68b40c1f1" />
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/d5ff6ffc-73d5-4050-96e4-bfb4fc2d660f" />
+
 
    # L6 Labs Sky130 Vt
 
@@ -456,6 +476,10 @@ For same W/L ratio but with lower channel length has Low peak current than devic
 <img width="482" height="575" alt="image" src="https://github.com/user-attachments/assets/f7b1e6d3-12de-4fa9-be7e-a5e7d5779116" />
 
 ![WhatsApp Image 2026-02-26 at 16 52 22](https://github.com/user-attachments/assets/9a5fe4a3-9561-4078-8e6f-9903c8ce3fa6)
+
+
+From the curve we can observe that Vt is the point where current increases drastically for a small change in Vgs. To calculate this value we will draw a tangent on the curve and find where it touches the x-axis.
+
 
 
 
@@ -1397,16 +1421,20 @@ Similarly to M2
 #  L3 Labs Sky130 SPICE simulation for CMOS
 
 
-![WhatsApp Image 2026-02-26 at 17 02 32](https://github.com/user-attachments/assets/576796aa-be8b-4075-af8f-87587f7eb62a)
-
+ we are plotting  to  VTC charcateristics
+ 
 ![WhatsApp Image 2026-02-26 at 17 03 48](https://github.com/user-attachments/assets/da541acb-91e4-4c67-a7f9-fda7f1daa5ae)
 
 ![WhatsApp Image 2026-02-26 at 17 01 19](https://github.com/user-attachments/assets/69151eaf-a49e-47c6-8661-13f34b255119)
 
+For CMOS inverter we are using both pfet and nfet. We can observe that W/L ratio of pmos is 2.33 times greater than nmos. Here we will sweep Vin from 0 to 1.8V with a step size of 0.01V and plot the corresponding Vout.
+
+ + we are plotting graph to find Switching threshold where Vin=Vout.
+   
 ![WhatsApp Image 2026-02-26 at 17 11 44](https://github.com/user-attachments/assets/e7ce6d7e-f1ad-4ff4-a374-5f513520d8fe)
 
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/1b3fbd4e-ae78-40fb-b383-5add1873228a" />
 
-![WhatsApp Image 2026-02-26 at 17 14 39](https://github.com/user-attachments/assets/9db64a81-8038-4af0-a35c-90180085a5b0)
 
 
 We will now observe transient analysis.
@@ -2171,6 +2199,13 @@ In Digital Design we always assume inverter is symmetric and VTC is ideal.But in
 
 ![WhatsApp Image 2026-02-26 at 18 01 03](https://github.com/user-attachments/assets/40a24bf1-8a39-403d-94f7-ba1b69f22479)
 
+We will take the point where the slope is -1 ; x axis will give VIL and VIH, whereas y axis will give VOH and VOL.
+
+<img width="348" height="82" alt="image" src="https://github.com/user-attachments/assets/5b3ed2d2-ebd5-4479-b00b-e84e1aefa698" />
+
+Noise margin NH = VOH - VIH = 1.70952-0.98778 = 0.72
+Noise margin NL = VIL - VOL = 0.7733-0.09523 = 0.67807
+
 
 
 
@@ -2180,6 +2215,7 @@ In Digital Design we always assume inverter is symmetric and VTC is ideal.But in
 # 5.1 NgspiceSky130-Day5-CMOS power supply and device variation robustness evaluation
 
 #  Static behaviour evaluation-CMOS inverter robustness-Power supply variation
+# L1 Smart SPICE simulations for power supply variations
 
 What is this lecture about?
 In previous lectures we changed PMOS width and saw how VTC and noise margin changes.
@@ -2488,7 +2524,28 @@ Real-world applications:
 
 ![WhatsApp Image 2026-02-26 at 18 11 37](https://github.com/user-attachments/assets/ff644d89-d268-4147-8d7b-f89edc88f072)
 
+L1 Smart SPICE simulations for power supply variations
+
 ![WhatsApp Image 2026-02-26 at 18 14 54](https://github.com/user-attachments/assets/799044b5-75c2-4a03-a998-6c25563daa51)
+
+gain:
+
++ Vdd=1.8V
+
+  <img width="336" height="79" alt="image" src="https://github.com/user-attachments/assets/9e5ddde3-5ee7-4e35-b3d1-900c67f5b5af" />
+
+  gain = 7.622
+
++ Vdd=0.8V
+
+  ![Uploading image.png…]()
+
+  gain = 9.38
+
+
+  
+
+
 
 
 
@@ -2788,6 +2845,8 @@ So due to robustness of CMOS it is used for making dierent devices from basic to
 ![WhatsApp Image 2026-02-26 at 18 22 26](https://github.com/user-attachments/assets/60aefd37-789e-4570-9bac-73df02849150)
 
 <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/95b2caef-fa17-4e7b-9dad-7b4b87c7e081" />
+
+We can see that the width of PMOS is quite large than that of NMOS. SO it is clearly strong PMOS and weak NMOS case. The Vm will be right shifted.
 
 <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/599efa59-697b-49f0-af5e-3f83a2a99843" />
 
