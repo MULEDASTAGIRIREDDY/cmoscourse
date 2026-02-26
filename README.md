@@ -1,6 +1,14 @@
-<img width="366" height="325" alt="image" src="https://github.com/user-attachments/assets/15bd897b-5ea5-442c-a93c-fcf64fd7d821" /> # CMOS-Circuit-Design-Spice-Simulation-using-Sky130nm-technology 
-#  cmoscourse
-# lecture1 why do we need spice simulations?
+# CMOS-Circuit-Design-Spice-Simulation-using-Sky130nm-technology 
+
+# Table Of Contents
+
+
+# NgspiceSky130-Day1-Basics of NMOS Drain Current(Id) vs Drain-to-source Voltage(Vds)
+ # Introduction to Circuit Design and Spice Simulations
+  #L1 Why do we need SPICE simulations?
+
+
+
    Before we study about SPICE simulations we need to know diference between the spice simulations and circuit design.
    
 # circuit design
@@ -33,7 +41,7 @@ WHY?
   Are these models accurate to use in realtime?
   How to verify whether static timing analysis is correct?
 
-  # 1.2 NMOS Introdction to basic element in circuit design - NMOS
+  # L2 Introduction to basic element in circuit design-NMOS
 
   <img width="389" height="310" alt="image" src="https://github.com/user-attachments/assets/af81b472-6c8d-444d-a036-15bd7f2714f4" />
 
@@ -166,7 +174,7 @@ As it is linear region of operation we should simpliy it to linear.
  + For calculating Id drift current for diferent conditions on Vgs and Vgs to find it's sweeping ranges we are using an engine to do all the work which is SPICE simulation to get drain current waveforms.
 
 
-# Pinch - Off region condition
+# L5 Pinch-off region condition
 
 # SATURATION REGION(Vds>Vgs-Vt)
 
@@ -237,7 +245,8 @@ From the graph we can observe that instead of completely constant current, we se
 
 
 # Introduction to SPICE.
- # Basic SPICE Setup.
+ # L1 Basic SPICE setup
+
 
  It is a software which contains predefined models to derive wave forms to calculate delays.
 
@@ -320,15 +329,68 @@ From the graph we can observe that instead of completely constant current, we se
 + leant about dirent terminal commands.
 + Learnt about different corners such as Typical corner(tt),slowfast(sf),fastfast(ff) corner.
 
-+ here we will open virtual Box and go to location o git clone https://github.com/kunalg123/sky130CircuitDesignWorkshop.git
-+ 
-  <img width="618" height="747" alt="image" src="https://github.com/user-attachments/assets/b16d4efa-cb40-4557-936b-6a4d607ee676" />
++ here we will open virtual Box and go to location o git clone https://github.com/kunalg123/sky130CircuitDesignWorkshop.git and open sky130_fd_pr
++ see cells,models and technology files.
 
-  we opened a file from sky130 and Id vs Vds simulation for diferent Vgs.
+<img width="656" height="363" alt="image" src="https://github.com/user-attachments/assets/ceab50c7-9186-4530-aa13-db2b9b4b5631" />
 
-  <img width="624" height="402" alt="image" src="https://github.com/user-attachments/assets/3a507611-c4ff-407d-8db2-3ecc3e760185" />
+<img width="489" height="301" alt="image" src="https://github.com/user-attachments/assets/7db118dd-0773-4f9c-8c9f-e18454175d24" />
 
-  
+in cells there are details about devices taht we are using.i.e. nfet and pfet cells.
+
+Inside fet files we can observe librarie at diferent corners and among those we will select one typical corner.
+
+<img width="388" height="344" alt="image" src="https://github.com/user-attachments/assets/1f2adcf0-d893-404c-8469-84dcb6cfa4b3" />
+
+inside these files we can see all model parameters required for process
+
+<img width="622" height="368" alt="image" src="https://github.com/user-attachments/assets/8907adae-5d33-4d97-8dc5-a45e1e291957" />
+
+Normally there are pre-described values in program.In these program W and L values are predescribed.we are going to use values which is already present in library.
+
+<img width="503" height="348" alt="image" src="https://github.com/user-attachments/assets/b2ff6e26-6ab3-4cd9-abfc-192a9eb53726" />
+
+  We will see inside models and select lib.spice file.Here we will see library iles related to nfet and pfet.The corner files include Typical,Slow-fast and fast-fast corner files. 
+
+<img width="623" height="357" alt="image" src="https://github.com/user-attachments/assets/c50c8e2d-a084-48bb-832a-b7f84240fe82" />
+
+<img width="634" height="362" alt="image" src="https://github.com/user-attachments/assets/e8eaca3e-dfb6-4919-b1eb-66ce25008329" />
+
+ Here we can see design file.From that select Day 1 file and open. 
+
+ <img width="664" height="224" alt="image" src="https://github.com/user-attachments/assets/16b07418-988b-4d29-9a25-fcef71eea7c0" />
+
+
+<img width="665" height="370" alt="image" src="https://github.com/user-attachments/assets/8bceda93-9425-4761-8c2b-403abaffbfe6" />
+
+ + This code tell about Vdd,Vgs and step size.
+ + Vdd varying from 0 to 1.8 volts with step size of 0.1V
+ + Vgs varying rom 0 to 1.8 with step size of 0.2V
+
+Now we will do the Spice simulation
+
+![WhatsApp Image 2026-02-26 at 23 21 06](https://github.com/user-attachments/assets/cd364880-1991-4122-9976-426f804e10cf)
+
+
+plot Id vs Vds
+
+![WhatsApp Image 2026-02-26 at 23 21 46](https://github.com/user-attachments/assets/98a1c65d-d008-474b-82bf-4518549163fe)
+
+<img width="354" height="309" alt="image" src="https://github.com/user-attachments/assets/0f2dd4b4-2a3e-47ca-a57a-bf820ea626b0" />
+
+Id vs Vds values
+
+<img width="360" height="183" alt="image" src="https://github.com/user-attachments/assets/d1fa0917-0eac-4a3b-9f07-b27be831b28e" />
+
+# L5 SPICE lab with Sky130 models
+
+<img width="661" height="360" alt="image" src="https://github.com/user-attachments/assets/f88c445c-d549-48f3-bf4f-e90c7ffd3da7" />
+
+
+Inside Models folder ,we will see all.spice file.Insie this we can see scale of width and lendth.We can see units are microns.
+<img width="715" height="375" alt="image" src="https://github.com/user-attachments/assets/a3db6ecf-c031-4826-9b46-5e597b5bf71b" />
+
+
 
 # DAY2
 # NgspiceSky130-Day2-Velocity saturation and basics of CMOS inverter VTC
@@ -622,9 +684,6 @@ To represent PMOS we se resistor as wires has some resistance and it is denoted 
 when Vin=0,the equivalent circuit is shown above.
 
 The above circuits decides voltage characteristics.
-
-
-
 
 
 
@@ -1440,6 +1499,17 @@ For CMOS inverter we are using both pfet and nfet. We can observe that W/L ratio
 We will now observe transient analysis.
 
 ![WhatsApp Image 2026-02-26 at 17 47 15](https://github.com/user-attachments/assets/285493ea-dc6e-4cc7-abb6-30ed27e3595c)
+
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/21eae3cf-befd-431b-aca2-b6636221ea15" />
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/a0191d36-9964-4368-be24-2a536bb97ba1" />
+
+
+<img width="421" height="330" alt="image" src="https://github.com/user-attachments/assets/d187e726-b0ab-441a-b535-bb8c59f47b8b" />
+
+
+
 
 
 
