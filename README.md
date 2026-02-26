@@ -441,9 +441,23 @@ For same W/L ratio but with lower channel length has Low peak current than devic
 
    # L5 Labs Sky130 Id-Vgs
 
+   ![WhatsApp Image 2026-02-26 at 16 36 56](https://github.com/user-attachments/assets/cba19d51-138b-4032-a57b-d6393a3c48cf)
+
+   ![WhatsApp Image 2026-02-26 at 16 39 58](https://github.com/user-attachments/assets/cb2e9b45-19ce-44b4-bcff-d287b4b0d5a0)
+
+
+
+
    
 
    # L6 Labs Sky130 Vt
+
+   
+<img width="482" height="575" alt="image" src="https://github.com/user-attachments/assets/f7b1e6d3-12de-4fa9-be7e-a5e7d5779116" />
+
+![WhatsApp Image 2026-02-26 at 16 52 22](https://github.com/user-attachments/assets/9a5fe4a3-9561-4078-8e6f-9903c8ce3fa6)
+
+
 
 
 # CMOS voltage transer Characteristics(VTC)
@@ -1167,14 +1181,6 @@ Comparison of the two load curve sets
 For any given Vin, the NMOS curve and PMOS load curve run in opposite directions on the same Vout axis. They must cross exactly once. That crossing point is the DC operating point of the inverter for that Vin — it gives the steady-state Vout.
 
 
-Summary — Key Equations from This Lecture
-•Vout = Vdd + VdsP                    [PMOS x-axis substitution]
-•IdsN plotted = -IdsP                  [PMOS y-axis flip]
-•VdsN = Vout                           [NMOS x-axis substitution, direct]
-•VgsN = Vin                            [NMOS curve relabelling]
-•Vin = VgsP + Vdd                      [PMOS curve relabelling, from L4]
-•IdsP = -IdsN                          [KCL constraint at output node]
-
 .............................................................................................
 
 # Lecture 6  Step 4 — Merging Load Curves and Building the VTC.
@@ -1389,6 +1395,36 @@ Similarly to M2
 ..................................................................................
 
 #  L3 Labs Sky130 SPICE simulation for CMOS
+
+
+![WhatsApp Image 2026-02-26 at 17 02 32](https://github.com/user-attachments/assets/576796aa-be8b-4075-af8f-87587f7eb62a)
+
+![WhatsApp Image 2026-02-26 at 17 03 48](https://github.com/user-attachments/assets/da541acb-91e4-4c67-a7f9-fda7f1daa5ae)
+
+![WhatsApp Image 2026-02-26 at 17 01 19](https://github.com/user-attachments/assets/69151eaf-a49e-47c6-8661-13f34b255119)
+
+![WhatsApp Image 2026-02-26 at 17 11 44](https://github.com/user-attachments/assets/e7ce6d7e-f1ad-4ff4-a374-5f513520d8fe)
+
+
+![WhatsApp Image 2026-02-26 at 17 14 39](https://github.com/user-attachments/assets/9db64a81-8038-4af0-a35c-90180085a5b0)
+
+
+We will now observe transient analysis.
+
+![WhatsApp Image 2026-02-26 at 17 47 15](https://github.com/user-attachments/assets/285493ea-dc6e-4cc7-abb6-30ed27e3595c)
+
+
+
+
+
+
+
+
+
+
+
+
+
  
  
 
@@ -1614,6 +1650,7 @@ the above shows about a clock cell where input waveform is equal to output wavef
 
 
 # NgspiceSky130-Day4-CMOS Noise Margin robustness evaluation
+
 # DAY 4.1 L1 Introduction to Noise Margin
 
 Static behavior Evaluation : CMOS inverter Robustness
@@ -2130,6 +2167,14 @@ In Digital Design we always assume inverter is symmetric and VTC is ideal.But in
 
 # L5 Sky130 Noise margin labs
 
+![WhatsApp Image 2026-02-26 at 17 56 33](https://github.com/user-attachments/assets/e6fe6f90-0dce-4d1f-b143-ce4b3346e907)
+
+![WhatsApp Image 2026-02-26 at 18 01 03](https://github.com/user-attachments/assets/40a24bf1-8a39-403d-94f7-ba1b69f22479)
+
+
+
+
+
 ............................................................................
 
 # 5.1 NgspiceSky130-Day5-CMOS power supply and device variation robustness evaluation
@@ -2259,6 +2304,7 @@ So the 5 iterations run at Vdd = 2.5, 2.0, 1.5, 1.0, 0.5V one by one automatical
 
 From above picture we can observe the entire .control block highlighted showing the full loop structure.
 After the loop finishes,the plot command puts all 5 VTC curves (dc1.out through dc5.out) on the same graph.
+
 
 
 #SIMULATION RESULTS
@@ -2435,6 +2481,15 @@ Real-world applications:
 ...................................................................
 
 # L3 Sky130 Supply variation Labs
+
+![WhatsApp Image 2026-02-26 at 18 11 37](https://github.com/user-attachments/assets/3658561a-ad09-4f8f-b776-85d54bd01b62)
+
+![WhatsApp Image 2026-02-26 at 18 11 37](https://github.com/user-attachments/assets/9572136f-c114-4236-96c3-3a3aa480f811)
+
+![WhatsApp Image 2026-02-26 at 18 11 37](https://github.com/user-attachments/assets/ff644d89-d268-4147-8d7b-f89edc88f072)
+
+![WhatsApp Image 2026-02-26 at 18 14 54](https://github.com/user-attachments/assets/799044b5-75c2-4a03-a998-6c25563daa51)
+
 
 
 ....................................................................
@@ -2728,6 +2783,13 @@ So due to robustness of CMOS it is used for making dierent devices from basic to
 # Lecture 5.2.5
 
 
+
+
+![WhatsApp Image 2026-02-26 at 18 22 26](https://github.com/user-attachments/assets/60aefd37-789e-4570-9bac-73df02849150)
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/95b2caef-fa17-4e7b-9dad-7b4b87c7e081" />
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/599efa59-697b-49f0-af5e-3f83a2a99843" />
 
 
 
