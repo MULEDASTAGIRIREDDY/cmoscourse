@@ -22,7 +22,7 @@
    - [L3 Define technology parameters](#l3-define-technology-parameters)
    - [L4 First SPICE simulation](#l4-first-spice-simulation)
    - [L5 SPICE lab with Sky130 models](#l5-spice-lab-with-sky130-models)
-   - [NgspiceSky130-Day2-Velocity saturation and basics of CMOS inverter VTC](#ngspicesky130-day2-velocity-saturation-and-basics-of-cmos-inverter-vtc)
+- [NgspiceSky130-Day2-Velocity saturation and basics of CMOS inverter VTC](#ngspicesky130-day2-velocity-saturation-and-basics-of-cmos-inverter-vtc)
    - [L1 SPICE simulation for lower nodes](#l1-spice-simulation-for-lower-nodes)
    - [L2 Drain current vs gate voltage for long and short channel device](#l2-drain-current-vs-gate-voltage-for-long-and-short-channel-device)
    - [L3 Velocity saturation at lower and higher elctric field](#l3-velocity-saturation-at-lower-and-higher-elctric-field)
