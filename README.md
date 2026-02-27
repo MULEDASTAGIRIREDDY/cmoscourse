@@ -2775,7 +2775,7 @@ WHY is W/L so critical?
 
 ........................................................................
 
-# lecture 45  SOURCE OF VARIATION : OXIDE ETHICKNESS
+# L2 Sources of variation - Oxide thickness
 
 In thi svideo we are going to stu=dy about second sorce o variation which is Oxid Thickness.
 
@@ -2911,7 +2911,7 @@ From graph we can observe that:
 So due to robustness of CMOS it is used for making dierent devices from basic to complex networks like all gates such as AND,OR,NAND,NOR etc in digital circits.
 
 
-# Lecture 5.2.5
+# L5 Sky130 device variations labs
 
 
 
