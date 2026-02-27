@@ -5,13 +5,13 @@
 
 # NgspiceSky130-Day1-Basics of NMOS Drain Current(Id) vs Drain-to-source Voltage(Vds)
  # Introduction to Circuit Design and Spice Simulations
-  #L1 Why do we need SPICE simulations?
+  # L1 Why do we need SPICE simulations?
 
 
 
    Before we study about SPICE simulations we need to know diference between the spice simulations and circuit design.
    
-# circuit design
+  # circuit design
 
 <img width="566" height="766" alt="image" src="https://github.com/user-attachments/assets/a07059bb-c5a0-4241-8552-1d73463d8d87" />
 
@@ -761,7 +761,7 @@ Combined View – Both Cases Together
 Now from the above picture (Frame 12) we can see both cases side by side clearly. When we compare the two cases:
 •When Vin = Vdd → Vout = 0 (output goes LOW when input is HIGH)
 •When Vin = 0 → Vout = Vdd (output goes HIGH when input is LOW)
-This is exactly the INVERSION behaviour that gives the INVERTER its name. The output is always the complement (opposite) of the input. This is achieved by cleverly combining PMOS (which turns ON when gate is LOW) and NMOS (which turns ON when gate is HIGH) in a complementary way — which is why the technology is called CMOS – Complementary Metal Oxide Semiconductor.
+This is exactly the INVERSION behaviour that gives the INVERTER its name. The output is always the complement (opposite) of the input. This is achieved by cleverly combining PMOS (which turns ON when gate is LOW) and NMOS (which turns ON when gate is HIGH) in a complementary way 
 
 <img width="700" height="313" alt="image" src="https://github.com/user-attachments/assets/8dce9462-c8fb-4b32-8e24-e698cd7a24d2" />
 
@@ -1264,7 +1264,7 @@ Comparison of the two load curve sets
 For any given Vin, the NMOS curve and PMOS load curve run in opposite directions on the same Vout axis. They must cross exactly once. That crossing point is the DC operating point of the inverter for that Vin — it gives the steady-state Vout.
 
 
-.............................................................................................
+............................................................................................
 
 # Lecture 6  Step 4 — Merging Load Curves and Building the VTC.
 
@@ -1386,9 +1386,11 @@ The steeper the VTC transition, the higher the noise margin of the gate. CMOS in
 
 #  NgspiceSky130-Day3-CMOS switching threshold and dynamic simulations
 
+# Voltage transfer characteristics-SPICE simulations
+
 # L1 SPICE deck creation for CMOS inverter
 
-   # SPice Deck
+   # SPICE Deck
    + it is the connectivity inormation about a netlist such as:
     + Tap points where we take output.
     + Connectivity information.
@@ -1500,6 +1502,7 @@ We will now observe transient analysis.
 
 ![WhatsApp Image 2026-02-26 at 17 47 15](https://github.com/user-attachments/assets/285493ea-dc6e-4cc7-abb6-30ed27e3595c)
 
+We can observe that it is typical corner same as before and W/L ratio is also same. But here we are giving a transient pulse from 0V to 1V with a shift of 0, where rise time and fall time are 0.1ns each, pulse width of 2ns and total time period of 4ns. Now let us run this simulation.
 
 <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/21eae3cf-befd-431b-aca2-b6636221ea15" />
 
@@ -1508,23 +1511,25 @@ We will now observe transient analysis.
 
 <img width="421" height="330" alt="image" src="https://github.com/user-attachments/assets/d187e726-b0ab-441a-b535-bb8c59f47b8b" />
 
+So for rise delay and fall delay, 
+we need to consider 50% of output curve i.e. at 0.9V; out-in.
+
+<img width="370" height="75" alt="image" src="https://github.com/user-attachments/assets/bac643f8-7590-4f5a-a929-c411f2e342dd" />
+
+Therefore Rise delay = 2.482ns-2.15ns = 0.333ns
+
+<img width="720" height="377" alt="image" src="https://github.com/user-attachments/assets/a45dc975-6da5-4b87-9a0b-edccdee398a3" />
+For fall delay, consider while falling.
+
+<img width="395" height="89" alt="image" src="https://github.com/user-attachments/assets/7cab0c14-14db-432f-904f-2ac2e53cc30d" />
+
+Therefore **Fall Delay = 4.334ns-4.050ns = 0.285ns**
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
- 
- 
 
 
 ................................................................................
