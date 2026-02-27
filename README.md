@@ -1536,7 +1536,7 @@ Therefore **Fall Delay = 4.334ns-4.050ns = 0.285ns**
 
 # DAY 3.2.1  Static behaviour evaluation-CMOS inverter robustness-Switching Threshold
 
- # Switchinh Threshold,Vm.
+ # L1 Switching Threshold,Vm.
 
  <img width="477" height="383" alt="image" src="https://github.com/user-attachments/assets/79c621e8-015c-4986-b44d-9e939b36a5bf" />
 
@@ -1579,7 +1579,7 @@ SWitching threshold Vin = Vout
    + IdsP=-IdsN,same magnitude but diferent direction.
 
 .....................................................................................
-# 3.2.2  L2 Analytical expression of Vm as a function of (W/L)n and (W/L)p
+# L2 Analytical expression of Vm as a function of (W/L)n and (W/L)p
 
 <img width="851" height="430" alt="image" src="https://github.com/user-attachments/assets/154a47a1-46a0-40f2-90ec-f7bd2dd7d42c" />
 
@@ -1638,7 +1638,7 @@ R is constant.Thi is known a sProcess transconductance.
 
   .......................................................
 
-# lecture 3.2.3  L3 Analytical expression of (W/L)n and (W/L)p as a function of Vm
+# L3 Analytical expression of (W/L)n and (W/L)p as a function of Vm
 
  Case 2:  We try to set value of Vm and evaluate  W/L values of both NMOS and PMOS.  
 
@@ -1658,7 +1658,7 @@ Derivation:
 
 + equation states about the diference in ratios of W/L ration PMOS and NMOS completely depnding on single variable which is Vm.
 
-# Lecture 3.2.4(SIMULATION)
+# L4 Static and Dynamic simulation of CMOS inverter
 
 <img width="812" height="460" alt="image" src="https://github.com/user-attachments/assets/4376ed47-da85-4076-b761-b6b38fef02ac" />
 
@@ -1694,8 +1694,7 @@ Pulse:
 
 + For given values of Kp,Kn,the rise delay is 148ps and fall delay is 71ps for Vm=0.99V.
 
-  # Lecture 3.2.5   Static and Dynamic simulation of CMOS inverter with increased PMOS width
-
+  # L5 Static and Dynamic simulation of CMOS inverter with increased PMOS width
 In previous lecture we did simulation for only one condition.Here we will do simulation s fror remaining conditions and we will compare results.
 
 <img width="686" height="348" alt="image" src="https://github.com/user-attachments/assets/425b500b-d72e-4d17-8deb-4b91e20ef6fe" />
@@ -1710,7 +1709,7 @@ In previous lecture we did simulation for only one condition.Here we will do sim
 
 
 
-  # Lecture 3.2.6
+  # L6 Applications of CMOS inverter in clock network and STA
 
   Until now we found Rise Delay,Fall Delay for diferent value of W/L ratios of PMOS and NMOS.By varying PMOS size w.r.t NMOS change in Vm is very low eventhough we change NMOS 2 to 3 times of PMOS.
 
